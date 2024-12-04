@@ -1,0 +1,132 @@
+@import "./variables.scss";
+@import "./breakpoints.scss";
+.top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: start;
+  padding: 5px;
+  height: 80px;
+
+  &_left {
+    width: 90%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    @include sm {
+      width: 91%;
+    }
+    @include mm {
+      width: 93%;
+    }
+    @include md {
+      width: 94%;
+    }
+    @include ml {
+      width: 95%;
+    }
+    @include lg {
+      width: 96.4%;
+    }
+  }
+
+  &_img {
+    height: 70px;
+  }
+  &_hostregister {
+    text-decoration: none;
+    padding: 5px;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    color: white;
+    border: 2px solid red;
+    border-radius: 10px;
+    background-color: red;
+
+    &:hover {
+      background-color: $pinkred;
+    }
+  }
+  &_dropdownmenu {
+    top: calc(80px - 38px);
+    position: absolute;
+    height: 33px;
+    width: 33px;
+    right: 0px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    margin: 0px 10px;
+    &:hover {
+      cursor: pointer;
+      .top_dropdownmenu_usericon {
+        background-color: black;
+      }
+      .top_dropdownmenu_downarrowicon {
+        color: black;
+      }
+    }
+    &_usericon {
+      position: absolute;
+      top: 0px;
+      right: -0.5px;
+      border: 2px solid transparent;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      z-index: 0;
+      color: white;
+      background-color: grey;
+    }
+    &_downarrowicon {
+      position: absolute;
+      right: -2px;
+      top: 16px;
+      z-index: 2;
+      background-color: white;
+      border-radius: 50%;
+      color: grey;
+    }
+  }
+}
+.dropdownlist {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 6px;
+  top: 72px;
+  color: black;
+  z-index: 3;
+  margin: 5px;
+  font-size: 15px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+
+  background-color: rgb(91, 87, 87);
+  padding: 5px;
+  border-radius: 3px;
+  width: 100px;
+  text-decoration: none;
+  &_loginlink {
+    text-decoration: none;
+    color: white;
+    font-weight: 1;
+  }
+  hr {
+    border: 0.2px solid white;
+  }
+}
+.navbar {
+  background-color: rgba(0, 0, 0, 0.375);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10vw;
+  height: 40px;
+
+  position: relative;
+  z-index: 2;
+  &_links {
+    margin: 10px;
+    color: white;
+    text-decoration: none;
+  }
+}

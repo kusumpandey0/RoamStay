@@ -1,0 +1,37 @@
+.aboutuslist {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px;
+  &_box {
+    border-radius: 30px;
+    height: 140px;
+    width: 285px;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    padding: 15px;
+    &_content {
+      display: none;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(255, 255, 255);
+      .aboutuslist_box_icon {
+        display: none;
+      }
+      .aboutuslist_box_content {
+        display: block;
+        font-size: 15px;
+      }
+    }
+    &_booking {
+      font-size: 100px;
+    }
+  }
+}

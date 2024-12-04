@@ -1,0 +1,17 @@
+.hero {
+  height: 500px;
+  background-image: url("../../public/herobackground.png");
+  background-size: cover;
+  position: relative;
+  top: -40px;
+  z-index: 1;
+  &_texts {
+    position: absolute;
+    left: calc(50% - 300px);
+    top: calc(50% - 100px + 40px);
+    text-align: left;
+    height: 200px;
+    width: 600px;
+    color: white;
+  }
+}

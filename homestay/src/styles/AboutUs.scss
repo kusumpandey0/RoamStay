@@ -1,0 +1,50 @@
+.aboutus {
+  position: relative;
+  background-color: rgb(198, 198, 198);
+  height: 600px;
+  top: -40px;
+  z-index: 0;
+  padding: 60px;
+  display: flex;
+  justify-content: center;
+  &_heading {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    letter-spacing: 5px;
+    color: white;
+    text-align: center;
+    font-weight: 10;
+    background-color: rgb(198, 198, 198);
+    width: 30%;
+    height: 40px;
+    top: 70px;
+  }
+  &_content {
+    margin: 30px;
+    height: 95%;
+    width: 80%;
+    border: 1px solid black;
+    display: flex;
+    padding: 30px;
+    gap: 30px;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    &_left {
+      width: 30%;
+      height: 90%;
+      &_pic {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    &_right {
+      width: calc(70% - 30px);
+      height: 90%;
+    }
+  }
+}
