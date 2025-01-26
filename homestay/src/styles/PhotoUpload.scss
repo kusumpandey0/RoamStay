@@ -1,0 +1,50 @@
+.photos {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Optional spacing between items */
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  label {
+    cursor: pointer;
+  }
+  .icon {
+    font-size: 100px;
+  }
+  .photo {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    z-index: 0;
+
+    &_uploadedimages {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      z-index: 1;
+      cursor: pointer;
+    }
+    &_removebutton {
+      display: none;
+      position: absolute;
+      height: 40px;
+      width: 40px;
+      top: 5px;
+      right: 5px;
+      z-index: 2;
+      background-color: rgba(208, 205, 205, 0.499);
+      border: 1px solid red;
+      cursor: pointer;
+
+      font-size: 20px;
+      border-radius: 50%;
+      &:hover {
+        color: red;
+      }
+    }
+    &:hover .photo_removebutton {
+      display: block;
+    }
+  }
+}

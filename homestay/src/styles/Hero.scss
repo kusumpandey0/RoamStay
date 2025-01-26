@@ -5,6 +5,7 @@
   position: relative;
   top: -40px;
   z-index: 1;
+
   &_texts {
     position: absolute;
     left: calc(50% - 300px);
@@ -13,5 +14,10 @@
     height: 200px;
     width: 600px;
     color: white;
+  }
+  &_checkavailabilitydiv {
+    position: absolute;
+    left: calc(50% - 350px);
+    top: calc(500px - 45px);
   }
 }

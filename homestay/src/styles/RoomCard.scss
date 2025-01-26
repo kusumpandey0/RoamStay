@@ -1,0 +1,21 @@
+.roomcard {
+  display: flex;
+  border: 2px solid grey;
+  height: 250px;
+  width: 950px;
+  justify-content: space-between;
+  &_photos {
+    width: 30%;
+    background-color: aqua;
+  }
+  &_info {
+    padding: 20px;
+    width: 50%;
+
+    border-right: 1px solid grey;
+  }
+  &_price {
+    padding: 20px;
+    width: 20%;
+  }
+}

@@ -1,9 +1,8 @@
-$pinkred: #F8395A;
-$blue: #24355A;
-$lightgrey: #F7F8F8;
+$pinkred: #f8395a;
+$blue: #24355a;
+$lightgrey: #f7f8f8;
 $grey: #bdb9b9;
 $darkgrey: #969393;
-
 
 @mixin shadow {
   box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.2);
@@ -12,13 +11,17 @@ $darkgrey: #969393;
 @mixin buttonStyle {
   padding: 10px 15px;
   background-color: $pinkred;
-  border: none;
-  font-size: 20px;
+  border: 2px solid $pinkred;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease;
   color: white;
   border-radius: 10px;
+  @content;
+  &:hover {
+    background-color: #f8395987;
+  }
 }
 
 :export {

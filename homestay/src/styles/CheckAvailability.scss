@@ -1,78 +1,158 @@
 @import "./breakpoints.scss";
+@import "./variables.scss";
 .availability {
-  position: relative;
-  background-color: ivory;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 800px;
-  height: 90px;
-  position: absolute;
-  top: calc(500px - 45px);
-  left: calc(50% - 400px);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: 100px;
 
-  &_dateinput {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: red;
+
+  &_left {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    width: 200px;
-    height: 90%;
-    justify-content: center;
-    align-items: center;
-    color: rgb(93, 93, 93);
-    border-right: 0.5px solid rgba(128, 128, 128, 0.539);
-    &:hover {
-      cursor: pointer;
-    }
-    &_datepicker {
-      text-align: center;
-      background-color: transparent;
-      border: none;
-      outline: none;
-      &:hover {
-        cursor: pointer;
+    height: 100%;
+    width: 80%;
+
+    &_top {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      background-color: ivory;
+      padding-left: 50px;
+      width: 100%;
+      height: 40%;
+      border-bottom: 0.5px solid rgba(128, 128, 128, 0.539);
+      &_input {
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: transparent;
+        &:focus {
+          outline: none;
+        }
       }
     }
-    .react-datepicker__input-container input::placeholder {
-      color: darkgray;
-    }
-    &_down {
+    .suggestionlistbox {
       position: absolute;
-      right: 35px;
-      bottom: 18px;
-      color: rgb(93, 93, 93);
-      font-size: 25px;
+      top: 40%;
+      z-index: 5;
+      width: 100%;
+      list-style: none;
+      border: 1px solid rgb(0, 0, 0);
+      border-radius: 0px 0px 10px 10px;
+      padding: 0px 10px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: ivory;
+      background-color: rgb(76, 76, 76);
+      &_lists {
+        display: flex;
+        border-bottom: 1px solid grey;
+        height: 40px;
+        align-items: center;
+        &:hover {
+          color: #f8395a;
+          cursor: pointer;
+        }
+      }
+    }
+    &_bottom {
+      background-color: ivory;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60%;
+      width: 100%;
+      &_dateinput {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: 200px;
+        height: 90%;
+        justify-content: center;
+        align-items: center;
+        color: rgb(93, 93, 93);
+
+        border-right: 0.5px solid rgba(128, 128, 128, 0.539);
+        &:hover {
+          cursor: pointer;
+        }
+        &_datepicker {
+          text-align: center;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          font-size: 15px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .react-datepicker__input-container input::placeholder {
+          color: darkgray;
+        }
+        &_down {
+          position: absolute;
+          right: 35px;
+          bottom: 18px;
+          color: rgb(93, 93, 93);
+          font-size: 25px;
+        }
+      }
+      &_guestinput {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: 200px;
+        height: 90%;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          cursor: pointer;
+        }
+        .counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 3px;
+        }
+      }
     }
   }
-  &_guestinput {
+  &_right {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    width: 200px;
-    height: 90%;
-    justify-content: center;
     align-items: center;
-  }
-
-  &_buttonbox {
-    background-color: red;
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    height: 90%;
-    justify-content: center;
-    align-items: center;
-    height: 90px;
-
-    &_button {
-      height: 100%;
+    height: 100%;
+    width: 20%;
+    &_buttonbox {
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      border: none;
-      outline: none;
-      &:hover {
-        cursor: pointer;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      &_button {
+        height: 100%;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: $pinkred;
+        color: black;
+
+        &:disabled {
+          color: rgba(0, 0, 0, 0.485);
+        }
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(255, 0, 0, 0.325);
+        }
       }
     }
   }

@@ -9,9 +9,11 @@ const AboutUslist = () => {
     <>
       <div className="aboutuslist">
         <div className="aboutuslist_box">
-          <FaBed className="aboutuslist_box_icon" />
-          <div className="aboutuslist_box_content">
+          <div className="aboutuslist_box_top">
+            <FaBed className="aboutuslist_box_icon" />
             <h3>Book Homestays & Hotels</h3>
+          </div>
+          <div className="aboutuslist_box_content">
             <p>
               Explore a variety of carefully selected hotels and homestays,
               ideal for any type of vacation. From luxurious stays to
@@ -21,9 +23,12 @@ const AboutUslist = () => {
           </div>
         </div>
         <div className="aboutuslist_box">
-          <GiPathDistance className="aboutuslist_box_icon" />
-          <div className="aboutuslist_box_content">
+          <div className="aboutuslist_box_top">
+            <GiPathDistance className="aboutuslist_box_icon" />
             <h3>Homestays on Your Trail</h3>
+          </div>
+
+          <div className="aboutuslist_box_content">
             <p>
               Planning a trekking adventure? Our platform allows you to book
               homestays along your trail route, ensuring that your journey is as
@@ -33,9 +38,12 @@ const AboutUslist = () => {
           </div>
         </div>
         <div className="aboutuslist_box">
-          <FaHome className="aboutuslist_box_icon" />
-          <div className="aboutuslist_box_content">
+          <div className="aboutuslist_box_top">
+            <FaHome className="aboutuslist_box_icon" />
             <h3>List Your Property</h3>
+          </div>
+
+          <div className="aboutuslist_box_content">
             <p>
               Have a property you'd like to rent out? List your homestay on our
               platform and earn while you’re away or if you simply want to serve
@@ -45,9 +53,12 @@ const AboutUslist = () => {
           </div>
         </div>
         <div className="aboutuslist_box">
-          <GiHumanPyramid className="aboutuslist_box_icon" />
-          <div className="aboutuslist_box_content">
+          <div className="aboutuslist_box_top">
+            <GiHumanPyramid className="aboutuslist_box_icon" />
             <h3>Register as a Travel Guide</h3>
+          </div>
+
+          <div className="aboutuslist_box_content">
             <p>
               Share your expertise and passion for travel by registering as a
               travel guide. Help adventurers discover amazing destinations,

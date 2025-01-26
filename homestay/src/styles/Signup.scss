@@ -8,52 +8,130 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 30px;
+  background-color: #ffffff;
 
-padding: 30px;
- 
+  //   &_content {
+  //     display: flex;
+  //     flex-direction: column;
+  //     gap: 15px;
+  //     width: 40%;
+  //     padding: 40px;
+  //     border-radius: 20px;
+  //     background-color: #dddbdb;
+
+  //     @include lg {
+  //       width: 60%;
+  //     }
+
+  //     @include mm {
+  //       width: 80%;
+  //     }
+
+  //     &_form {
+  //       display: flex;
+  //       flex-direction: column;
+  //       align-items: center;
+  //       gap: 15px;
+
+  //       input {
+  //         width: 100%;
+  //         padding: 7px 15px;
+  //         background-color: transparent;
+  //         border: none;
+  //         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  //         outline: none;
+  //         text-align: center;
+  //         color: white;
+
+  //         &:focus {
+  //           border-bottom: 1px solid white;
+  //           &::placeholder {
+  //             opacity: 0.3;
+  //           }
+  //         }
+  //       }
+
+  //       button {
+  //         @include buttonStyle;
+  //         width: 50%;
+
+  //         &:hover {
+  //           box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.214);
+  //         }
+  //       }
+  //     }
+
+  //     a {
+  //       text-decoration: none;
+  //       color: white;
+  //       font-size: 13px;
+  //       margin-top: 10px;
+  //       text-align: center;
+
+  //       &:hover {
+  //         text-decoration: underline;
+  //       }
+  //     }
+  //   }
+  // }
   &_content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    width: 40%;
-    padding: 40px;
-    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 90%;
+    height: 1000px;
+    padding: 5px;
+    background-color: #dddbdb;
     border-radius: 20px;
-
-    @include lg {
-      width: 60%
+    @include sm {
+      width: 80%;
     }
-
-    @include mm {
-      width: 80%
+    @include md {
+      width: 60%;
+    }
+    @include lg {
+      width: 40%;
     }
 
     &_form {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
-
+      gap: 25px;
+      height: 80%;
+      width: 80%;
       input {
+        font-size: 15px;
         width: 100%;
         padding: 7px 15px;
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        border-bottom: 1px solid rgba(21, 1, 1, 0.3);
         outline: none;
         text-align: center;
-        color: white;
+        color: black;
 
-        &:focus
-        {
-          border-bottom: 1px solid white;
-          &::placeholder
-          {
+        &:focus,
+        &:hover {
+          border-bottom: 1px solid rgb(0, 0, 0);
+          &::placeholder {
             opacity: 0.3;
           }
         }
       }
-
+      .password-field {
+        position: relative;
+        width: 100%;
+        .eye-icon {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          cursor: pointer;
+        }
+      }
       .labelbefore {
         display: flex;
         flex-direction: row;
@@ -63,45 +141,30 @@ padding: 30px;
         cursor: pointer;
         color: grey;
         font-size: 14px;
-&:hover
-{
-  color: white;
-}
+        &:hover {
+          color: black;
+        }
 
-        .uploadicon
-        {
+        .uploadicon {
           height: 30px;
           width: 30px;
         }
       }
-      .labelafter
-      {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 9px;
-        font-size: 14px;
-        color:white;
-        .uploadicon
-        {
-          height: 30px;
-          width: 30px;
-        }
+      .labelafter {
+        display: none;
       }
 
       button {
-
         @include buttonStyle;
+        font-size: 20px;
         width: 50%;
 
         &:hover {
-          box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.214);
+          background-color: rgba(255, 0, 34, 0.558);
         }
       }
     }
-
-    a {
+    Link {
       text-decoration: none;
       color: white;
       font-size: 13px;
@@ -110,6 +173,7 @@ padding: 30px;
 
       &:hover {
         text-decoration: underline;
+        cursor: pointer;
       }
     }
   }

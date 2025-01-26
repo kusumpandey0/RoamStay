@@ -1,11 +1,13 @@
 @import "./variables.scss";
 @import "./breakpoints.scss";
+
 .top {
   display: flex;
   align-items: flex-end;
   justify-content: start;
   padding: 5px;
   height: 80px;
+  position: relative; /* Added to help with positioning dropdown */
 
   &_left {
     width: 90%;
@@ -31,8 +33,9 @@
   }
 
   &_img {
-    height: 70px;
+    height: 80px;
   }
+
   &_hostregister {
     text-decoration: none;
     padding: 5px;
@@ -47,6 +50,7 @@
       background-color: $pinkred;
     }
   }
+
   &_dropdownmenu {
     top: calc(80px - 38px);
     position: absolute;
@@ -56,6 +60,7 @@
     border-radius: 50%;
     border: 2px solid transparent;
     margin: 0px 10px;
+
     &:hover {
       cursor: pointer;
       .top_dropdownmenu_usericon {
@@ -65,6 +70,7 @@
         color: black;
       }
     }
+
     &_usericon {
       position: absolute;
       top: 0px;
@@ -77,6 +83,7 @@
       color: white;
       background-color: grey;
     }
+
     &_downarrowicon {
       position: absolute;
       right: -2px;
@@ -88,6 +95,7 @@
     }
   }
 }
+
 .dropdownlist {
   display: flex;
   flex-direction: column;
@@ -99,21 +107,32 @@
   margin: 5px;
   font-size: 15px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-
   background-color: rgb(91, 87, 87);
   padding: 5px;
   border-radius: 3px;
   width: 100px;
   text-decoration: none;
+  visibility: hidden; /* Hidden by default, show when dropdown is active */
+  opacity: 0; /* Optional, for smooth transition */
+  transition: visibility 0s, opacity 0.5s linear; /* Smooth fade effect */
+
+  &.active {
+    /* Apply active class to show the dropdown */
+    visibility: visible;
+    opacity: 1;
+  }
+
   &_loginlink {
     text-decoration: none;
     color: white;
     font-weight: 1;
   }
+
   hr {
     border: 0.2px solid white;
   }
 }
+
 .navbar {
   background-color: rgba(0, 0, 0, 0.375);
   display: flex;
@@ -121,12 +140,21 @@
   align-items: center;
   gap: 10vw;
   height: 40px;
-
   position: relative;
   z-index: 2;
+
   &_links {
     margin: 10px;
     color: white;
     text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      color: black;
+    }
+  }
+  &_active {
+    text-decoration: none;
+    color: black;
+    margin: 10px;
   }
 }

@@ -4,7 +4,7 @@ import AboutUslist from "./AboutUslist";
 const AboutUs = () => {
   return (
     <>
-      <div className="aboutus">
+      <div className="aboutus" id="about-us">
         <h5 className="aboutus_heading">LITTLE ABOUT US</h5>
         <div className="aboutus_content">
           <div className="aboutus_content_left">

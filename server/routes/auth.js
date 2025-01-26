@@ -19,15 +19,12 @@ const upload = multer({ storage });
 router.post("/signup", upload.single("profileimage"), async (req, res) => {
   try {
     /*take all information from the form */
-    const { firstname, lastname, email, password } = req.body;
-    /*the uploaded file is available as req.file */
-    const profileimage = req.file;
-    if (!profileimage) {
-      return res.status(400).send("No file uploaded");
+    const { firstname, lastname, email, phonenumber, password } = req.body;
+    console.log(req.body);
+    let profileimagePath = "";
+    if (req.file) {
+      profileimagePath = req.file.path;
     }
-    /*path to the uploaded profile photo */
-    const profileimagePath = profileimage.path;
-    /*check if user exist */
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ message: "User already exists!" });
@@ -40,6 +37,7 @@ router.post("/signup", upload.single("profileimage"), async (req, res) => {
       firstname,
       lastname,
       email,
+      phonenumber,
       password: hashPassword,
       profileimagePath,
     });
@@ -65,13 +63,17 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     /*check is user exists */
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) return res.status(400).json({ message: "User doesn't exist!" });
     /*checking the password with the hash password*/
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid Credentials" });
     /*generate JWT token */
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: user._id, firstname: user.firstname },
+      process.env.JWT_SECRET
+    );
     delete user.password;
     res.status(200).json({ token, user });
   } catch (err) {
