@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewNavbar from "../components/NewNavbar";
 import RoomCard from "../components/RoomCard";
 import GeoNavigatorMap from "../components/GeoNavigatorMap";
@@ -6,7 +6,9 @@ import "../styles/Room.scss";
 import { FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { categories, facilities, types } from "../categories";
+import { useStore } from "../Context/StoreContext";
 const Room = () => {
+  const { url } = useStore();
   const [filters, setFilters] = useState({
     distanceFromLocation: "",
     categoryType: "",
@@ -15,6 +17,22 @@ const Room = () => {
     amenities: [],
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [properties, setProperties] = useState([]); // Store fetched properties
+
+  useEffect(() => {
+    // Fetch properties from the API
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch(`${url}/api/propertylist/read`); // Adjust the endpoint as needed
+        const data = await response.json();
+        setProperties(data); // Update state with fetched data
+      } catch (err) {
+        console.log("Error fetching properties:", err.message);
+      }
+    };
+
+    fetchProperties();
+  }, []);
   const distanceFromLocation = [
     "Less Than 2Km",
     "2KM to 5KM",
@@ -63,7 +81,13 @@ const Room = () => {
             <div className="checkbox_group">
               {distanceFromLocation.map((dis) => (
                 <label key={dis}>
-                  <input type="checkbox" value={filters.distanceFromLocation} />
+                  <input
+                    type="checkbox"
+                    value={filters.distanceFromLocation}
+                    onChange={(e) =>
+                      handleCheckboxChange(e, "distanceFromLocation")
+                    }
+                  />
                   <span>{dis}</span>
                 </label>
               ))}
@@ -103,7 +127,11 @@ const Room = () => {
             <div className="checkbox_group">
               {types.map((type) => (
                 <label key={type.name}>
-                  <input type="checkbox" value={filters.propertyType} />
+                  <input
+                    type="checkbox"
+                    value={filters.propertyType}
+                    onChange={(e) => handleCheckboxChange(e, "propertyType")}
+                  />
                   <span>{type.name}</span>
                 </label>
               ))}
@@ -118,7 +146,7 @@ const Room = () => {
                     type="checkbox"
                     value={amenity.name}
                     checked={filters.amenities.includes(amenity)}
-                    // onChange={(e) => handleCheckboxChange(e, "amenities")}
+                    onChange={(e) => handleCheckboxChange(e, "amenities")}
                   />
                   <span>{amenity.name}</span>
                 </label>
@@ -128,9 +156,20 @@ const Room = () => {
         </aside>
 
         <main className="room_listings">
-          <RoomCard />
-          <RoomCard />
-          <RoomCard />
+          {properties.length > 0 ? (
+            properties.map((property) => (
+              <RoomCard
+                key={property._id}
+                title={property.title}
+                description={property.description}
+                price={property.price}
+                location={property.location}
+                images={property.images}
+              />
+            ))
+          ) : (
+            <p>No properties found!</p>
+          )}
         </main>
       </div>
     </div>
