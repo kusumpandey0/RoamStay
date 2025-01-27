@@ -9,57 +9,55 @@ import { IoBedOutline } from "react-icons/io5";
 const RoomCard = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
-  };
-
   return (
-    <div className="roomcard">
-      <div className="roomcard_image">
-        <img src="../public/herobackground.png" alt="nnn" />
-        <div className="wishlist_icon" onClick={handleFavoriteClick}>
-          {isFavorite ? <PiHeartFill /> : <PiHeart />}
+    <div className="room_container">
+      <div className="roomcard">
+        <div className="roomcard_image">
+          <img src="/herobackground.png" alt="room" />
+          <div
+            className="wishlist_icon"
+            onClick={() => setIsFavorite(!isFavorite)}
+          >
+            {isFavorite ? <PiHeartFill /> : <PiHeart />}
+          </div>
         </div>
-      </div>
 
-      <div className="roomcard_content">
-        <div className="roomcard_content_top">
-          <h3>Title</h3>
-          <div className="rating">
-            <BsFillStarFill />
-            <span>4.8</span>
+        <div className="roomcard_content">
+          <div className="roomcard_content_top">
+            <h3>Luxury Villa</h3>
+          </div>
+          <p className="highlight">Mountain View</p>
+          <p className="description">Description</p>
+          <div className="roomcard_content_features">
+            <div className="feature">
+              <FaUser />
+              <span>4 Guests</span>
+            </div>
+            <div className="feature">
+              <IoBedOutline />
+              <span>2 Bedrooms</span>
+            </div>
+            <div className="feature">
+              <FaBed />
+              <span>3 Beds</span>
+            </div>
+            <div className="feature">
+              <FaBath />
+              <span>2 Baths</span>
+            </div>
           </div>
         </div>
-        <p className="highlight">Highlight</p>
-        <div className="roomcard_content_features">
-          <div className="feature">
-            <FaUser />
-            <span>Guests</span>
-          </div>
-          <div className="feature">
-            <IoBedOutline />
-            <span> Bedrooms</span>
-          </div>
-          <div className="feature">
-            <FaBed />
-            <span> Beds</span>
-          </div>
-          <div className="feature">
-            <FaBath />
-            <span> Baths</span>
-          </div>
-        </div>
-      </div>
 
-      <div className="roomcard_right">
-        <div className="roomcard_price">
-          <span>$100</span>
-          <small>/night</small>
+        <div className="roomcard_right">
+          <div className="roomcard_price">
+            <span>$250</span>
+            <small>/night</small>
+          </div>
+          <button className="explore_btn">
+            Explore More
+            <FaArrowRight />
+          </button>
         </div>
-        <button className="explore_btn">
-          Explore More
-          <FaArrowRight />
-        </button>
       </div>
     </div>
   );
