@@ -1,19 +1,36 @@
 import React, { useState } from "react";
 import "../styles/RoomCard.scss";
 import { FaBed, FaBath, FaUser } from "react-icons/fa";
-import { BsFillStarFill } from "react-icons/bs";
 import { PiHeart, PiHeartFill } from "react-icons/pi";
 import { FaArrowRight } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
+import { useStore } from "../Context/StoreContext";
 
-const RoomCard = () => {
+const RoomCard = ({
+  title,
+  description,
+  highlight,
+  price,
+  location,
+  images,
+  guestCount,
+  bathroomCount,
+  bedCount,
+  bedroomCount,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const { url } = useStore();
+  console.log("roomcard");
+  console.log(`${url}/${images[0]}`);
   return (
     <div className="room_container">
       <div className="roomcard">
         <div className="roomcard_image">
-          <img src="/herobackground.png" alt="room" />
+          {/* Use dynamic image path */}
+          <img
+            src={`${url}/${images[0]}` || "/herobackground.png"}
+            alt="room"
+          />
           <div
             className="wishlist_icon"
             onClick={() => setIsFavorite(!isFavorite)}
@@ -24,33 +41,37 @@ const RoomCard = () => {
 
         <div className="roomcard_content">
           <div className="roomcard_content_top">
-            <h3>Luxury Villa</h3>
+            <h3>{title}</h3> {/* Use dynamic title */}
           </div>
-          <p className="highlight">Mountain View</p>
-          <p className="description">Description</p>
+          <p className="highlight">{highlight}</p> {/* Use dynamic highlight */}
+          <p className="description">{description}</p>{" "}
+          {/* Use dynamic description */}
           <div className="roomcard_content_features">
             <div className="feature">
               <FaUser />
-              <span>4 Guests</span>
+              <span>{guestCount} Guests</span>{" "}
+              {/* You can calculate guest count based on location */}
             </div>
             <div className="feature">
               <IoBedOutline />
-              <span>2 Bedrooms</span>
+              <span>{bedroomCount} Bedrooms</span>{" "}
+              {/* Adjust based on your data */}
             </div>
             <div className="feature">
               <FaBed />
-              <span>3 Beds</span>
+              <span>{bedCount} Beds</span> {/* Adjust based on your data */}
             </div>
             <div className="feature">
               <FaBath />
-              <span>2 Baths</span>
+              <span>{bathroomCount} Baths</span>{" "}
+              {/* Adjust based on your data */}
             </div>
           </div>
         </div>
 
         <div className="roomcard_right">
           <div className="roomcard_price">
-            <span>$250</span>
+            <span>Nrs.{price}</span>
             <small>/night</small>
           </div>
           <button className="explore_btn">

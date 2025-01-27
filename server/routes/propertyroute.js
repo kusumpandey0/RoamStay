@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/VerifyToken");
 const {
- 
-  propertycontroller,
+  readproperty,
+  createproperty,
 } = require("../controller/propertycontroller");
-const {upload,storage}=require('../middleware/upload');
+const { upload, storage } = require("../middleware/upload");
 // Remove from index.js and put here instead
 try {
-  router.post("/create", verifyToken, upload, propertycontroller);
-  router.get("/read", propertycontroller);
+  router.post("/create", verifyToken, upload, createproperty);
+  router.get("/read", readproperty);
 } catch (err) {
   console.log("error in propertyroute", err);
 }

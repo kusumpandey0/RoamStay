@@ -7,6 +7,7 @@ import { FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { categories, facilities, types } from "../categories";
 import { useStore } from "../Context/StoreContext";
+import axios from "axios";
 const Room = () => {
   const { url } = useStore();
   const [filters, setFilters] = useState({
@@ -20,14 +21,13 @@ const Room = () => {
   const [properties, setProperties] = useState([]); // Store fetched properties
 
   useEffect(() => {
-    // Fetch properties from the API
     const fetchProperties = async () => {
       try {
-        const response = await fetch(`${url}/api/propertylist/read`); // Adjust the endpoint as needed
-        const data = await response.json();
-        setProperties(data); // Update state with fetched data
+        const response = await axios.get(`${url}/api/propertylist/read`);
+        setProperties(response.data.properties);
+        console.log(response.data.properties);
       } catch (err) {
-        console.log("Error fetching properties:", err.message);
+        console.log(err.message);
       }
     };
 
@@ -162,9 +162,14 @@ const Room = () => {
                 key={property._id}
                 title={property.title}
                 description={property.description}
+                highlight={property.highlight}
                 price={property.price}
                 location={property.location}
                 images={property.images}
+                guestCount={property.guestCount}
+                bathroomCount={property.bathroomCount}
+                bedCount={property.bedCount}
+                bedroomCount={property.bedroomCount}
               />
             ))
           ) : (
