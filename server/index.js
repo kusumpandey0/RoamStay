@@ -17,9 +17,9 @@ app.use("/api/auth", authRoutes);
 const propertyRoutes = require("./routes/propertyroute");
 app.use("/api/propertylist", propertyRoutes);
 
-//for destinations
-const destinationRoute =require('./routes/destinationRoute.js')
-app.use('/api/destination',destinationRoute)
+// //for destinations
+// const destinationRoute =require('./routes/destinationRoute.js')
+// app.use('/api/destination',destinationRoute)
 
 
 
