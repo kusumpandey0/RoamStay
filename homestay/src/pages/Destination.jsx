@@ -3,6 +3,7 @@ import DestinationBox from "../components/DestinationBox";
 import NewNavbar from "../components/NewNavbar";
 import "../styles/Destination.scss";
 import PhotoUpload from "../components/PhotoUpload";
+import { useStore } from "../Context/StoreContext";
 const Destination = () => {
   const [destinations, setDestinations] = useState([
     {
@@ -59,6 +60,8 @@ const Destination = () => {
     },
   ]);
 
+  const{photos,setPhotos,url,token}=useStore();
+
   const [newDestination, setNewDestination] = useState({
     title: "",
     description: "",
@@ -73,19 +76,38 @@ const Destination = () => {
     }));
   };
 
-  const handleAddDestination = (e) => {
+  const handleAddDestination = async(e) => {
     e.preventDefault();
-    if (
-      newDestination.title &&
-      newDestination.description &&
-      newDestination.photo
-    ) {
-      setDestinations((prevDestinations) => [
-        ...prevDestinations,
-        newDestination,
-      ]);
-      setNewDestination({ title: "", description: "", photo: "" });
-    }
+    console.log(newDestination);
+    console.log(photos);
+    const formData=new FormData();
+    formData.append("title",newDestination.title);
+    formData.append("description",newDestination.description);
+    photos.forEach((photo) => {
+      formData.append("images", photo);
+    });
+
+    // try{
+    //     const res=await axios.post(`${url}/api/destination/create`,formData,
+    //       {
+    //         headers:{
+    //           Authorization:`Bearer ${token}`
+    //         }
+    //       }
+    //       )
+    // }catch(err){
+    //   console.log(err);
+      
+    // }
+    
+    // if (
+    //   newDestination.title &&
+    //   newDestination.description &&
+    //   newDestination.photo
+    // ) {
+    
+    //   setNewDestination({ title: "", description: "", photo: "" });
+    // }
   };
 
   return (

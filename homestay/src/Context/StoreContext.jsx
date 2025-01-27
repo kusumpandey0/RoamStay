@@ -19,7 +19,6 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [jwtUserDetails, setJwtUserDetails] = useState(null);
   const [photos, setPhotos] = useState([]);
-  console.log(token);
   // const fetchUserDetails = () => {
   //   try {
   //   } catch (err) {
@@ -29,7 +28,7 @@ export const StoreProvider = ({ children }) => {
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
-    console.log("token", token);
+    // console.log("token", token);
     if (savedToken) {
       setToken(savedToken);
       const decode = jwtDecode(savedToken);

@@ -1,14 +1,15 @@
 const Property = require("../models/Property");
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    return cb(null, "public/roomphotos");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-const upload = multer({ storage: storage }).array("images", 10);
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     return cb(null, "public/roomphotos");
+//   },
+//   filename: function (req, file, cb) {
+//     return cb(null, `${Date.now()}-${file.originalname}`);
+//   },
+// });
+// const upload = multer({ storage: storage }).array("images", 10);
+
 const propertycontroller = async (req, res) => {
   if (req.method === "POST") {
     try {
@@ -67,4 +68,4 @@ const propertycontroller = async (req, res) => {
     console.log("ppp", properties);
   }
 };
-module.exports = { propertycontroller, upload };
+module.exports = { propertycontroller };
