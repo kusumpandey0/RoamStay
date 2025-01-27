@@ -1,6 +1,15 @@
 const express =require("express");
 const verifyToken = require("../middleware/VerifyToken");
-const destinationController=require('../controller/destinationController')
+const{createDestination,fetchDestinations}=require('../controller/destinationController')
+const {upload}=require('../middleware/upload')
 const router=express.Router();
 
-router.post('/create',verifyToken,destinationController)
+try{
+    router.post('/create',verifyToken,upload,createDestination)
+    router.get('/read',fetchDestinations)
+
+}catch(err){
+    console.log("error in route");
+    
+}
+module.exports=router

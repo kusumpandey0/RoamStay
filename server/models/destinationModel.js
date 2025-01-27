@@ -1,13 +1,22 @@
 const mongoose=require("mongoose");
 
 const destinationSchema=mongoose.Schema({
-    name:{
+    userId:{
+        type:String
+    },
+    addedBy:{
+        type:String,
+    },
+    title:{
         type:String,
         required:true,
     },
     description:{
         type:String,
         required:true,
+    },
+    phnNumber:{
+        type:String
     },
     destinationPhoto:{
         type:[String]
@@ -21,3 +30,5 @@ const destinationSchema=mongoose.Schema({
 
 const Destination=mongoose.model("Destination",destinationSchema)
 module.exports=Destination;
+
+

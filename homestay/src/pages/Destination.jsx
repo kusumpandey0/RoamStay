@@ -1,64 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DestinationBox from "../components/DestinationBox";
 import NewNavbar from "../components/NewNavbar";
 import "../styles/Destination.scss";
 import PhotoUpload from "../components/PhotoUpload";
 import { useStore } from "../Context/StoreContext";
+import axios from 'axios'
 const Destination = () => {
-  const [destinations, setDestinations] = useState([
-    {
-      title: "Pokhara",
-      description: "City of lakes with stunning mountain views.",
-      photo: "../../public/pokhara.jpg",
-    },
-    {
-      title: "Kathmandu",
-      description: "Ancient temples and vibrant culture in Nepal's capital.",
-      photo: "../../public/kathmandu.jpg",
-    },
-    {
-      title: "Chitwan",
-      description: "National park with diverse wildlife and jungle safaris.",
-      photo: "../../public/chitwan.jpg",
-    },
-    {
-      title: "Lumbini",
-      description:
-        "Birthplace of Buddha with peaceful gardens and monasteries.",
-      photo: "../../public/lumbini.jpg",
-    },
-    {
-      title: "Mustang",
-      description: "Hidden kingdom with dramatic landscapes and ancient caves.",
-      photo: "../../public/mustang.jpg",
-    },
-    {
-      title: "Nagarkot",
-      description: "Mountain viewpoint perfect for sunrise and sunset views.",
-      photo: "../../public/nagarkot.jpg",
-    },
-    {
-      title: "Bandipur",
-      description: "Preserved Newari town with traditional architecture.",
-      photo: "../../public/bandipur.jpg",
-    },
-    {
-      title: "Ilam",
-      description:
-        "Rolling hills covered in tea plantations and misty mornings.",
-      photo: "../../public/ilam.jpg",
-    },
-    {
-      title: "Rara Lake",
-      description: "Pristine alpine lake surrounded by snow-capped peaks.",
-      photo: "../../public/rara.jpg",
-    },
-    {
-      title: "Janakpur",
-      description: "Religious and cultural center with historic temples.",
-      photo: "../../public/janakpur.jpg",
-    },
-  ]);
+  const [destinations, setDestinations] = useState([]);
 
   const{photos,setPhotos,url,token}=useStore();
 
@@ -87,28 +35,46 @@ const Destination = () => {
       formData.append("images", photo);
     });
 
-    // try{
-    //     const res=await axios.post(`${url}/api/destination/create`,formData,
-    //       {
-    //         headers:{
-    //           Authorization:`Bearer ${token}`
-    //         }
-    //       }
-    //       )
-    // }catch(err){
-    //   console.log(err);
+    try{
+        const res=await axios.post(`${url}/api/destination/create`,formData,
+          {
+            headers:{
+              Authorization:`Bearer ${token}`
+            }
+          }
+          )
+          console.log(res);
+          
+    }catch(err){
+      console.log(err.response.data.error);
       
-    // }
+    }
     
-    // if (
-    //   newDestination.title &&
-    //   newDestination.description &&
-    //   newDestination.photo
-    // ) {
+    if (
+      newDestination.title &&
+      newDestination.description &&
+      newDestination.photo
+    ) {
     
-    //   setNewDestination({ title: "", description: "", photo: "" });
-    // }
+      setNewDestination({ title: "", description: "", photo: "" });
+    }
   };
+  
+  //for fetching destination data 
+  const fetchDestination=async()=>{
+    try{
+        const res=await axios.get(`${url}/api/destination/read`)
+                setDestinations(res.data.data)
+        
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
+  
+  useEffect(()=>{
+    fetchDestination();
+  },[])
 
   return (
     <>
@@ -117,12 +83,10 @@ const Destination = () => {
         <div className="destination-list">
           <h2>Explore Popular Destinations</h2>
           <div className="destination-grid">
-            {destinations.map((destination, index) => (
+            {destinations&&destinations.map((destination, index) => (
               <DestinationBox
                 key={index}
-                title={destination.title}
-                description={destination.description}
-                photo={destination.photo}
+                destination={destination}
               />
             ))}
           </div>

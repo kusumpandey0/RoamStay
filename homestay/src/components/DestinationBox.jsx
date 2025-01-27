@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import "../styles/DestinationBox.scss";
 import { PiHeart, PiHeartFill } from "react-icons/pi";
 import { IoMdArrowDropright } from "react-icons/io";
+import { useStore } from "../Context/StoreContext";
 
-const DestinationBox = () => {
+const DestinationBox = ({destination}) => {
+  const{url}=useStore();
   const [destinationWishlist, setDestinationWishlist] = useState(false);
+  
   return (
     <>
       <div className="destinationbox">
@@ -15,9 +18,10 @@ const DestinationBox = () => {
           >
             {destinationWishlist ? <PiHeartFill /> : <PiHeart />}
           </div>
-          <img src="../public/herobackground.png" />
+          <img src={`${url}/${destination?.destinationPhoto[0]}`}/>
+          <h4>{destination?.title}</h4>
           <p className="destinationbox_list_info">
-            this place is beautiful.new place.ilove this plavce.visit soon.
+            {destination?.description}
           </p>
           <div className="destinationbox_list_moredetails">
             <button>
