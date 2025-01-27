@@ -18,8 +18,8 @@ const propertyRoutes = require("./routes/propertyroute");
 app.use("/api/propertylist", propertyRoutes);
 
 //for destinations
-const destinationRoute = require("./routes/destinationRoute.js");
-app.use("/api/destination", destinationRoute);
+// const destinationRoute = require("./routes/destinationRoute.js");
+// app.use("/api/destination", destinationRoute);
 
 //database connectiona and starting the server
 const URL = process.env.MONGO_URL;
