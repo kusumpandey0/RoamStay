@@ -1,55 +1,125 @@
+@import "./variables.scss";
+@import "./breakpoints.scss";
+
 .populardestinations {
   position: relative;
-  top: -40px;
-  height: 400px;
-  background-color: rgba(18, 68, 34, 0.612);
+
+  min-height: 400px;
+  background: linear-gradient(
+    135deg,
+    rgba(244, 244, 250, 0.97),
+    rgba(236, 236, 245, 0.95)
+  );
   display: flex;
   flex-direction: column;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  color: grey;
+  font-family: "Gill Sans", sans-serif;
+  color: $grey;
   overflow: hidden;
-  justify-content: center;
-  gap: 20px;
+  padding: 40px 20px;
+  margin-bottom: 0;
+  padding-bottom: 60px;
+
   &_top {
     display: flex;
+    flex-direction: column;
     gap: 30px;
-    color: beige;
+    color: $blue;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+
+    @include md {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
     &_texts {
-      height: 100%;
-      width: 30%;
+      width: 100%;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+
+      @include md {
+        width: 30%;
+        position: sticky;
+        top: 20px;
+      }
+
       &_explain1 {
-        font-size: 12px;
-      }
-      h1 {
-        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        color: rgb(237, 237, 82);
-        font-size: 70px;
-      }
-      &_explain2 {
         font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: darken($darkgrey, 15%);
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      h1 {
+        font-family: "Gill Sans", sans-serif;
+        color: $blue;
+        font-size: clamp(36px, 5vw, 56px);
+        line-height: 1.2;
+        margin-bottom: 25px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      &_explain2 {
+        font-size: clamp(15px, 2vw, 17px);
+        line-height: 1.8;
+        color: darken($darkgrey, 10%);
+        max-width: 600px;
+        font-weight: 400;
+        letter-spacing: 0.2px;
+
+        @include md {
+          margin-right: 20px;
+        }
       }
     }
+
     &_content {
-      height: 100%;
-      width: 80%;
-      padding-top: 20px;
-      color: black;
+      width: 100%;
+      padding: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      @include md {
+        width: 70%;
+      }
     }
   }
+
   &_bottom {
-    height: 20%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+
+    @include md {
+      justify-content: flex-end;
+    }
+
     button {
-      height: 50px;
-      width: 200px;
-      font-size: 20px;
+      padding: 12px 35px;
+      font-size: 16px;
+      background: $pinkred;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      @include shadow;
+
+      &:hover {
+        transform: translateY(-2px);
+        background: darken($pinkred, 10%);
+        box-shadow: 0 5px 15px rgba($pinkred, 0.3);
+      }
     }
   }
 }

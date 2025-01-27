@@ -11,7 +11,7 @@ export const useStore = () => {
 
 // Provider component that wraps your app and provides context values
 export const StoreProvider = ({ children }) => {
-  const url = "https://localhost:3001";
+  const url = "http://localhost:3001";
   const [location, setLocation] = useState({ lat: "27.7103", lng: "85.3222" });
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -33,9 +33,7 @@ export const StoreProvider = ({ children }) => {
     if (savedToken) {
       setToken(savedToken);
       const decode = jwtDecode(savedToken);
-      console.log("decoded", decode);
       decode && setJwtUserDetails(decode);
-      // fetchUserDetails();
     }
   }, [token]);
   const fetchSuggestion = async (query) => {

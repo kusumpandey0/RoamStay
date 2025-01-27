@@ -10,8 +10,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 /*routes*/
-app.use("/api/auth", authRoutes);
-app.use("/api/propertylist", propertyRoutes);
 
 const URL = process.env.MONGO_URL;
 connectToDb(URL);
@@ -19,7 +17,8 @@ const PORT = process.env.PORT || 3050;
 const server = app.listen(PORT, () => {
   console.log(`${PORT} listened`);
 });
-
+app.use("/api/auth", authRoutes);
+app.use("/api/propertylist", propertyRoutes);
 server.on("error", (err) => {
   if (err.code === "EADDRINUSE") {
     console.error(`Port ${PORT} is already in use`);

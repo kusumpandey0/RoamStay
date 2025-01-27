@@ -1,179 +1,223 @@
-@use "./variables.scss" as *;
-@use "./breakpoints.scss" as *;
+@import "./variables.scss";
+@import "./breakpoints.scss";
 
 .register {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 30px;
-  background-color: #ffffff;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba($blue, 0.05), rgba($pinkred, 0.05));
 
-  //   &_content {
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 15px;
-  //     width: 40%;
-  //     padding: 40px;
-  //     border-radius: 20px;
-  //     background-color: #dddbdb;
-
-  //     @include lg {
-  //       width: 60%;
-  //     }
-
-  //     @include mm {
-  //       width: 80%;
-  //     }
-
-  //     &_form {
-  //       display: flex;
-  //       flex-direction: column;
-  //       align-items: center;
-  //       gap: 15px;
-
-  //       input {
-  //         width: 100%;
-  //         padding: 7px 15px;
-  //         background-color: transparent;
-  //         border: none;
-  //         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  //         outline: none;
-  //         text-align: center;
-  //         color: white;
-
-  //         &:focus {
-  //           border-bottom: 1px solid white;
-  //           &::placeholder {
-  //             opacity: 0.3;
-  //           }
-  //         }
-  //       }
-
-  //       button {
-  //         @include buttonStyle;
-  //         width: 50%;
-
-  //         &:hover {
-  //           box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.214);
-  //         }
-  //       }
-  //     }
-
-  //     a {
-  //       text-decoration: none;
-  //       color: white;
-  //       font-size: 13px;
-  //       margin-top: 10px;
-  //       text-align: center;
-
-  //       &:hover {
-  //         text-decoration: underline;
-  //       }
-  //     }
-  //   }
-  // }
   &_content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 90%;
-    height: 1000px;
-    padding: 5px;
-    background-color: #dddbdb;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px 30px;
+    background: white;
     border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+
     @include sm {
-      width: 80%;
+      padding: 50px 40px;
     }
-    @include md {
-      width: 60%;
-    }
-    @include lg {
-      width: 40%;
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+
+      img {
+        height: 90px;
+        width: 120px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
     }
 
     &_form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      height: 80%;
-      width: 80%;
-      input {
-        font-size: 15px;
-        width: 100%;
-        padding: 7px 15px;
-        background-color: transparent;
-        border: none;
-        border-bottom: 1px solid rgba(21, 1, 1, 0.3);
-        outline: none;
-        text-align: center;
-        color: black;
+      gap: 20px;
+      margin-bottom: 25px;
 
-        &:focus,
-        &:hover {
-          border-bottom: 1px solid rgb(0, 0, 0);
-          &::placeholder {
-            opacity: 0.3;
+      input {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 15px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid $lightgrey;
+        color: $blue;
+        transition: all 0.3s ease;
+
+        &::placeholder {
+          color: $darkgrey;
+        }
+
+        &:focus, &:hover {
+          outline: none;
+          border-color: $pinkred;
+        }
+      }
+
+      .password-field {
+        position: relative;
+
+        .eye-icon {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $darkgrey;
+          cursor: pointer;
+          padding: 5px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            color: $pinkred;
           }
         }
       }
-      .password-field {
+
+      .profile-image-preview {
         position: relative;
-        width: 100%;
-        .eye-icon {
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          cursor: pointer;
-        }
-      }
-      .labelbefore {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 9px;
-        cursor: pointer;
-        color: grey;
-        font-size: 14px;
+        display: inline-block;
+        padding: 5px;
+        border-radius: 12px;
+        background: rgba($lightgrey, 0.1);
+        transition: all 0.3s ease;
+
         &:hover {
-          color: black;
+          background: rgba($lightgrey, 0.2);
+
+          .remove-image-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+
+          img {
+            filter: brightness(0.8);
+          }
         }
 
-        .uploadicon {
-          height: 30px;
-          width: 30px;
+        img {
+          height: 120px;
+          width: 100px;
+          border-radius: 8px;
+          object-fit: cover;
+          transition: all 0.3s ease;
+        }
+
+        .remove-image-icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0.8);
+          color: white;
+          background: rgba($pinkred, 0.9);
+          font-size: 24px;
+          padding: 8px;
+          border-radius: 50%;
+          cursor: pointer;
+          opacity: 0;
+          transition: all 0.3s ease;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 35px;
+          height: 35px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+          &:hover {
+            background: $pinkred;
+            transform: translate(-50%, -50%) scale(1.1);
+          }
+
+          &:active {
+            transform: translate(-50%, -50%) scale(0.95);
+          }
         }
       }
+
+      .labelbefore {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        border: 2px dashed $grey;
+        border-radius: 12px;
+        color: $darkgrey;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        .uploadicon {
+          font-size: 24px;
+          color: $pinkred;
+        }
+
+        &:hover {
+          border-color: $pinkred;
+          background: rgba($pinkred, 0.05);
+          color: $blue;
+        }
+      }
+
       .labelafter {
         display: none;
       }
 
       button {
-        @include buttonStyle;
-        font-size: 20px;
-        width: 50%;
+        margin-top: 10px;
+        padding: 12px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(135deg, $pinkred, darken($pinkred, 10%));
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        @include shadow;
 
-        &:hover {
-          background-color: rgba(255, 0, 34, 0.558);
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        &:not(:disabled):hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba($pinkred, 0.3);
+        }
+
+        &:not(:disabled):active {
+          transform: translateY(0);
         }
       }
     }
-    Link {
-      text-decoration: none;
-      color: white;
-      font-size: 13px;
-      margin-top: 10px;
-      text-align: center;
 
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
+    p {
+      text-align: center;
+      color: $darkgrey;
+      font-size: 14px;
+
+      a {
+        color: $pinkred;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 5px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: darken($pinkred, 10%);
+          text-decoration: underline;
+        }
       }
     }
   }

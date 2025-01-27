@@ -1,104 +1,30 @@
 const mongoose = require("mongoose");
 
-const PropertySchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  highlight: {
-    type: String,
-    default: "",
-  },
-  highlightDesc: {
-    type: String,
-    default: "",
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  amenitiesLists: [
-    {
-      name: String,
-      icon: String,
-    },
-  ],
-  categoryLists: [
-    {
-      name: String,
-      icon: String,
-    },
-  ],
-  typeLists: [
-    {
-      name: String,
-      description: String,
-    },
-  ],
-  availableDates: {
-    type: [Date], // Start and end dates
-    validate: {
-      validator: function (dates) {
-        return dates.length === 2; // Ensure there are two dates
-      },
-      message: "Available dates must include a start and end date.",
-    },
-    required: true,
-  },
-  guestCount: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
-  bedroomCount: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
-  bedCount: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
-  bathroomCount: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
-  photos: [
-    {
-      type: String, // URLs or paths to uploaded photos
-    },
-  ],
-  location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      default: "Point",
-    },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
+const propertySchema = new mongoose.Schema(
+  {
+    title: String,
+    description: String,
+    highlight: String,
+    highlightDesc: String,
+    price: Number,
+    availableDates: [Date],
+    guestCount: Number,
+    bedroomCount: Number,
+    bedCount: Number,
+    bathroomCount: Number,
+    categoryLists: [{ id: String, name: String, icon: Object }],
+    typeLists: [{ name: String, description: String, icon: Object }], // Make sure typeLists is defined as an array of objects
+    amenitiesLists: [{ name: String, icon: Object }],
+    location: {
+      type: [Number],
       required: true,
     },
+    address: String,
+    images: [String],
   },
-  address: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
-PropertySchema.index({ location: "2dsphere" }); // Geospatial index for location
-
-const Property = mongoose.model("Property", PropertySchema);
+const Property = mongoose.model("Property", propertySchema);
 
 module.exports = Property;

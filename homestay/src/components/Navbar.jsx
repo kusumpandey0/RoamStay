@@ -7,10 +7,10 @@ import { useStore } from "../Context/StoreContext";
 
 const Navbar = () => {
   const [dropdownClick, setDropdownClick] = React.useState(false);
-  const { userDetails, setUserDetails } = useStore();
-  console.log(userDetails);
+  const { jwtUserDetails, setJwtUserDetails } = useStore();
+
   const handleLogout = () => {
-    setUserDetails(null);
+    setJwtUserDetails(null);
     setDropdownClick(false); // Close the dropdown
     console.log("User logged out");
   };
@@ -36,7 +36,7 @@ const Navbar = () => {
         </div>
 
         <div className={`dropdownlist ${dropdownClick ? "active" : ""}`}>
-          {userDetails ? (
+          {jwtUserDetails ? (
             <div>
               <NavLink className="dropdownlist_loginlink" to="/">
                 Wish List

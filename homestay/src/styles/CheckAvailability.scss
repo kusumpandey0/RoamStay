@@ -1,14 +1,15 @@
 @import "./breakpoints.scss";
 @import "./variables.scss";
+
 .availability {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 800px;
   height: 100px;
-
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  background-color: red;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, white, #f8f9fa);
+  border-radius: 12px;
 
   &_left {
     position: relative;
@@ -21,54 +22,80 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      background-color: ivory;
+      background-color: white;
       padding-left: 50px;
       width: 100%;
       height: 40%;
-      border-bottom: 0.5px solid rgba(128, 128, 128, 0.539);
+      border-bottom: 1px solid $grey;
+
+      svg {
+        color: $pinkred;
+        font-size: 20px;
+      }
+
       &_input {
         height: 100%;
         width: 100%;
         padding: 10px;
         border: none;
         background-color: transparent;
+        font-size: 1rem;
+        color: $blue;
+
+        &::placeholder {
+          color: $darkgrey;
+        }
+
         &:focus {
           outline: none;
         }
       }
     }
+
     .suggestionlistbox {
       position: absolute;
       top: 40%;
       z-index: 5;
       width: 100%;
       list-style: none;
-      border: 1px solid rgb(0, 0, 0);
-      border-radius: 0px 0px 10px 10px;
-      padding: 0px 10px 10px 10px;
+      border: none;
+      border-radius: 0 0 12px 12px;
+      padding: 5px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      color: ivory;
-      background-color: rgb(76, 76, 76);
+      color: $blue;
+      background-color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
       &_lists {
         display: flex;
-        border-bottom: 1px solid grey;
+        border-bottom: 1px solid $lightgrey;
         height: 40px;
         align-items: center;
+        padding: 0 15px;
+        transition: all 0.2s ease;
+
         &:hover {
-          color: #f8395a;
+          color: $pinkred;
+          background-color: $lightgrey;
           cursor: pointer;
+        }
+
+        &:last-child {
+          border-bottom: none;
         }
       }
     }
+
     &_bottom {
-      background-color: ivory;
+      background-color: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 60%;
       width: 100%;
+
       &_dateinput {
         display: flex;
         flex-direction: column;
@@ -77,33 +104,48 @@
         height: 90%;
         justify-content: center;
         align-items: center;
-        color: rgb(93, 93, 93);
-
-        border-right: 0.5px solid rgba(128, 128, 128, 0.539);
+        color: $darkgrey;
+        border-right: 1px solid $grey;
+        transition: background-color 0.2s ease;
         &:hover {
           cursor: pointer;
+          background-color: $lightgrey;
         }
+
+        label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+        }
+
         &_datepicker {
           text-align: center;
           background-color: transparent;
           border: none;
           outline: none;
           font-size: 15px;
+          color: $blue;
+          cursor: pointer;
+
           &:hover {
             cursor: pointer;
           }
         }
+
         .react-datepicker__input-container input::placeholder {
-          color: darkgray;
+          color: $darkgrey;
         }
+
         &_down {
           position: absolute;
           right: 35px;
           bottom: 18px;
-          color: rgb(93, 93, 93);
+          color: $darkgrey;
           font-size: 25px;
         }
       }
+
       &_guestinput {
         display: flex;
         flex-direction: column;
@@ -112,24 +154,56 @@
         height: 90%;
         justify-content: center;
         align-items: center;
+        transition: background-color 0.2s ease;
+
         &:hover {
           cursor: pointer;
+          background-color: $lightgrey;
         }
+
+        label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          color: $darkgrey;
+        }
+
         .counter {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 3px;
+          gap: 12px;
+
+          svg {
+            color: $pinkred;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+
+          span {
+            font-size: 15px;
+            color: $blue;
+            min-width: 20px;
+            text-align: center;
+          }
         }
       }
     }
   }
+
   &_right {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
     width: 20%;
+
     &_buttonbox {
       display: flex;
       flex-direction: column;
@@ -144,16 +218,63 @@
         border: none;
         outline: none;
         background-color: $pinkred;
-        color: black;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
 
         &:disabled {
-          color: rgba(0, 0, 0, 0.485);
+          background-color: lighten($pinkred, 20%);
+          color: rgba(255, 255, 255, 0.7);
+          cursor: not-allowed;
         }
-        &:hover {
+
+        &:not(:disabled):hover {
           cursor: pointer;
-          background-color: rgba(255, 0, 0, 0.325);
+          background-color: darken($pinkred, 10%);
+          transform: translateY(-2px);
         }
       }
+    }
+  }
+}
+
+// Custom DatePicker styles
+.react-datepicker {
+  font-family: inherit;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+
+  &__header {
+    background-color: $pinkred;
+    border: none;
+    padding: 10px;
+  }
+
+  &__current-month {
+    color: white;
+    font-weight: 600;
+  }
+
+  &__day-name {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &__day {
+    transition: all 0.2s ease;
+
+    &--selected {
+      background-color: $pinkred !important;
+      color: white;
+    }
+
+    &--keyboard-selected {
+      background-color: lighten($pinkred, 20%) !important;
+    }
+
+    &:hover {
+      background-color: $lightgrey;
     }
   }
 }

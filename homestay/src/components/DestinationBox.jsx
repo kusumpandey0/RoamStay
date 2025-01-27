@@ -1,27 +1,20 @@
 import React, { useState } from "react";
 import "../styles/DestinationBox.scss";
-import { PiHeart } from "react-icons/pi";
-import { PiHeartFill } from "react-icons/pi";
+import { PiHeart, PiHeartFill } from "react-icons/pi";
 import { IoMdArrowDropright } from "react-icons/io";
 
 const DestinationBox = () => {
-  const [wishlist, setWishlist] = useState(false);
+  const [destinationWishlist, setDestinationWishlist] = useState(false);
   return (
     <>
       <div className="destinationbox">
         <div className="destinationbox_list">
-          {wishlist && (
-            <PiHeartFill
-              className="destinationbox_list_wishlist"
-              onClick={() => setWishlist(false)}
-            />
-          )}
-          {!wishlist && (
-            <PiHeart
-              className="destinationbox_list_wishlist"
-              onClick={() => setWishlist(true)}
-            />
-          )}
+          <div
+            className="destinationbox_list_wishlist"
+            onClick={() => setDestinationWishlist(!destinationWishlist)}
+          >
+            {destinationWishlist ? <PiHeartFill /> : <PiHeart />}
+          </div>
           <img src="../public/herobackground.png" />
           <p className="destinationbox_list_info">
             this place is beautiful.new place.ilove this plavce.visit soon.

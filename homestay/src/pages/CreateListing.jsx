@@ -14,7 +14,7 @@ import { useStore } from "../Context/StoreContext.jsx";
 const CreateListing = () => {
   const [CategoryAll, setCategoryAll] = useState(false);
   const { photos, setPhotos, location, address, url, token } = useStore();
-  console.log(photos);
+
   const today = new Date();
   const [formData, setFormData] = useState({
     title: "",
@@ -68,7 +68,6 @@ const CreateListing = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const { title, description, price, availableDates } = formData;
     if (!title || !description || !price || !availableDates.length) {
       alert("Please fill all required fields and set available dates.");
@@ -90,24 +89,27 @@ const CreateListing = () => {
     data.append("categoryLists", JSON.stringify(formData.categoryLists));
     data.append("typeLists", JSON.stringify(formData.typeLists));
     data.append("amenitiesLists", JSON.stringify(formData.amenitiesLists));
-    data.append("location", location);
+    data.append("location", JSON.stringify(location));
     data.append("address", address);
 
     // Append photos
-    photos.forEach((photo, index) => {
-      data.append(`photos[${index}]`, photo);
+    photos.forEach((photo) => {
+      data.append("images", photo);
     });
-    console.log("Form Submitted: ", formData);
-    console.log("data", data);
+    // console.log("Form Submitted: ", formData);
+    // console.log("data", data);
     alert("Your listing has been created!");
     try {
       console.log("token", token);
       const response = await axios.post(
         `${url}/api/propertylist/create`,
-        { data },
-        { headers: { Authorization: `Bearer ${token}` } }
+        data,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          "Content-Type": "multipart/form-data",
+        }
       );
-      console.log(response);
+      console.log("created", response.data);
     } catch (err) {
       console.log(err.message);
     }
@@ -204,6 +206,7 @@ const CreateListing = () => {
                 <div
                   className="amenities_list"
                   onClick={() => handleSelection("amenitiesLists", item)}
+                  key={index}
                 >
                   <p className="amenities_list_icon">{item.icon}</p>
                   <p className="amenities_list_name">{item.name}</p>

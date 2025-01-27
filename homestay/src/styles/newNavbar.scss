@@ -5,49 +5,77 @@
   display: flex;
   align-items: flex-end;
   justify-content: start;
-  padding: 5px;
+  padding: 10px 15px;
   height: 80px;
-  position: relative; /* Added to help with positioning dropdown */
+  position: relative;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   &_left {
-    width: 90%;
+    width: 85%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
 
     @include sm {
-      width: 91%;
+      width: 88%;
     }
     @include mm {
-      width: 93%;
+      width: 90%;
+      flex-wrap: nowrap;
     }
     @include md {
-      width: 94%;
+      width: 92%;
     }
     @include ml {
-      width: 95%;
+      width: 94%;
     }
     @include lg {
-      width: 96.4%;
+      width: 96%;
+    }
+
+    h3 {
+      font-size: clamp(14px, 2vw, 16px);
+      color: $blue;
+      font-weight: 500;
+    }
+
+    &_logo {
+      height: 60px;
+      width: 100px;
+      object-fit: contain;
+      filter: brightness(0) invert(1); // Make logo white
     }
   }
 
   &_img {
     height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &_hostregister {
     text-decoration: none;
-    padding: 5px;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-      sans-serif;
+    padding: 8px 15px;
+    font-family: "Gill Sans", sans-serif;
     color: white;
-    border: 2px solid red;
-    border-radius: 10px;
-    background-color: red;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, $pinkred, darken($pinkred, 10%));
+    font-size: 16px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 
     &:hover {
-      background-color: $pinkred;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($pinkred, 0.3);
+      background: linear-gradient(135deg, lighten($pinkred, 5%), $pinkred);
     }
   }
 
@@ -56,32 +84,33 @@
     position: absolute;
     height: 33px;
     width: 33px;
-    right: 0px;
+    right: 15px;
     border-radius: 50%;
-    border: 2px solid transparent;
-    margin: 0px 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 
     &:hover {
-      cursor: pointer;
+      transform: translateY(-2px);
+
       .top_dropdownmenu_usericon {
-        background-color: black;
+        background: linear-gradient(135deg, $blue, darken($blue, 10%));
       }
       .top_dropdownmenu_downarrowicon {
-        color: black;
+        color: $blue;
       }
     }
 
     &_usericon {
       position: absolute;
-      top: 0px;
-      right: -0.5px;
-      border: 2px solid transparent;
+      top: 0;
+      right: 0;
       height: 30px;
       width: 30px;
       border-radius: 50%;
       z-index: 0;
-      color: white;
-      background-color: grey;
+      color: rgb(255, 255, 255);
+      background: linear-gradient(135deg, $grey, darken($grey, 100%));
+      transition: all 0.3s ease;
     }
 
     &_downarrowicon {
@@ -91,7 +120,9 @@
       z-index: 2;
       background-color: white;
       border-radius: 50%;
-      color: grey;
+      color: $grey;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -100,61 +131,115 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  right: 6px;
+  right: 15px;
   top: 72px;
-  color: black;
-  z-index: 3;
+  z-index: 100;
   margin: 5px;
-  font-size: 15px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  background-color: rgb(91, 87, 87);
-  padding: 5px;
-  border-radius: 3px;
-  width: 100px;
+  font-size: 14px;
+  font-family: "Gill Sans", sans-serif;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  width: 150px;
   text-decoration: none;
-  visibility: hidden; /* Hidden by default, show when dropdown is active */
-  opacity: 0; /* Optional, for smooth transition */
-  transition: visibility 0s, opacity 0.5s linear; /* Smooth fade effect */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
   &.active {
-    /* Apply active class to show the dropdown */
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
   }
 
   &_loginlink {
     text-decoration: none;
-    color: white;
-    font-weight: 1;
+    color: $blue;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $lightgrey;
+      color: $pinkred;
+    }
   }
 
   hr {
-    border: 0.2px solid white;
+    border: none;
+    height: 1px;
+    background-color: $lightgrey;
+    margin: 4px 0;
   }
 }
 
 .navbar {
-  background-color: rgba(0, 0, 0, 0.375);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10vw;
+  gap: clamp(20px, 5vw, 10vw);
   height: 40px;
   position: relative;
   z-index: 2;
+  padding: 0 15px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &_links {
     margin: 10px;
     color: white;
     text-decoration: none;
     cursor: pointer;
+    font-size: clamp(14px, 1.5vw, 16px);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+
     &:hover {
-      color: black;
+      color: white;
+
+      &::after {
+        width: 100%;
+      }
     }
   }
+
   &_active {
     text-decoration: none;
-    color: black;
+    color: white;
     margin: 10px;
+    font-weight: 600;
+    position: relative;
+    font-size: clamp(14px, 1.5vw, 16px);
+    white-space: nowrap;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: white;
+    }
   }
 }

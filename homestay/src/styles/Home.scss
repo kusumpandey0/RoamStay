@@ -1,3 +1,19 @@
 * {
   margin: 0;
 }
+
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  // Ensure components stack without gaps
+  > * {
+    margin-bottom: 0;
+  }
+
+  // Remove any margin from the last child before footer
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}

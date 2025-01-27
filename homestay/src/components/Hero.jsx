@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="hero">
         <div className="hero_texts">
           <h1 style={{ fontSize: "50px", textAlign: "left" }}>
-            Find Your Perfect Getaway-
+            Find Your Perfect Gateaway-
           </h1>
           <p style={{ fontSize: "18px" }}>
             Experience comfort, style, and personalized stays at unique

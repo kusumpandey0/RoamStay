@@ -1,92 +1,130 @@
-@use "./breakpoints.scss" as *;
-@use "./variables.scss" as *;
+@import "./variables.scss";
+@import "./breakpoints.scss";
 
 .login {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 30px;
-  background-color: #ffffff;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba($blue, 0.05), rgba($pinkred, 0.05));
+
   &_content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 90%;
-    height: 80%;
-    padding: 40px;
-    background-color: #dddbdb;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 30px;
+    background: white;
     border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+
     @include sm {
-      width: 80%;
+      padding: 50px 40px;
     }
-    @include md {
-      width: 60%;
-    }
-    @include lg {
-      width: 40%;
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+
+      img {
+        height: 90px;
+        width: 120px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
     }
 
     &_form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 50px;
-      height: 80%;
-      width: 80%;
-      input {
-        font-size: 15px;
-        width: 100%;
-        padding: 7px 15px;
-        background-color: transparent;
-        border: none;
-        border-bottom: 1px solid rgba(21, 1, 1, 0.3);
-        outline: none;
-        text-align: center;
-        color: black;
+      gap: 25px;
+      margin-bottom: 25px;
 
-        &:focus,
-        &:hover {
-          border-bottom: 1px solid rgb(0, 0, 0);
-          &::placeholder {
-            opacity: 0.3;
+      input {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 15px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid $lightgrey;
+        color: $blue;
+        transition: all 0.3s ease;
+
+        &::placeholder {
+          color: $darkgrey;
+        }
+
+        &:focus, &:hover {
+          outline: none;
+          border-color: $pinkred;
+        }
+      }
+
+      .password-field {
+        position: relative;
+
+        .eye-icon {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $darkgrey;
+          cursor: pointer;
+          padding: 5px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            color: $pinkred;
           }
         }
       }
-      .password-field {
-        position: relative;
-        width: 100%;
-        .eye-icon {
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          cursor: pointer;
-        }
-      }
+
       button {
-        @include buttonStyle;
-        font-size: 20px;
-        width: 50%;
+        margin-top: 20px;
+        padding: 12px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(135deg, $pinkred, darken($pinkred, 10%));
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        @include shadow;
 
         &:hover {
-          background-color: rgba(255, 0, 34, 0.558);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba($pinkred, 0.3);
+        }
+
+        &:active {
+          transform: translateY(0);
         }
       }
     }
-    Link {
-      text-decoration: none;
-      color: white;
-      font-size: 13px;
-      margin-top: 10px;
-      text-align: center;
 
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
+    p {
+      text-align: center;
+      color: $darkgrey;
+      font-size: 14px;
+
+      a {
+        color: $pinkred;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 5px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: darken($pinkred, 10%);
+          text-decoration: underline;
+        }
       }
     }
   }

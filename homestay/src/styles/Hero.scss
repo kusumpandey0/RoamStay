@@ -1,23 +1,47 @@
+@import "./breakpoints.scss";
+@import "./variables.scss";
+
 .hero {
-  height: 500px;
-  background-image: url("../../public/herobackground.png");
-  background-size: cover;
   position: relative;
-  top: -40px;
+  height: 500px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../public/herobackground.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
   z-index: 1;
 
   &_texts {
     position: absolute;
-    left: calc(50% - 300px);
-    top: calc(50% - 100px + 40px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     text-align: left;
-    height: 200px;
-    width: 600px;
+    width: 90%;
+    max-width: 600px;
     color: white;
+    padding: 20px;
+
+    h1 {
+      font-size: clamp(30px, 5vw, 50px);
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: clamp(16px, 2vw, 18px);
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
   }
+
   &_checkavailabilitydiv {
     position: absolute;
-    left: calc(50% - 350px);
-    top: calc(500px - 45px);
+    left: 51%;
+    transform: translateX(-50%);
+    top: 450px;
+    width: 95%;
+    max-width: 800px;
   }
 }
