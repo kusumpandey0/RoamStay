@@ -9,7 +9,7 @@ const {
 // Remove from index.js and put here instead
 try {
   router.post("/create", verifyToken, upload, propertycontroller);
-  router.get("/retrieve", verifyToken, propertycontroller);
+  router.get("/read", propertycontroller);
 } catch (err) {
   console.log("error in propertyroute", err);
 }

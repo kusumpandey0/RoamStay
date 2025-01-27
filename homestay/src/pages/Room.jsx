@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import NewNavbar from "../components/NewNavbar";
 import RoomCard from "../components/RoomCard";
+import GeoNavigatorMap from "../components/GeoNavigatorMap";
 import "../styles/Room.scss";
 import { FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { categories, facilities, types } from "../categories";
 const Room = () => {
   const [filters, setFilters] = useState({
-    propertyType: "",
+    distanceFromLocation: "",
+    categoryType: "",
     priceRange: "",
+    propertyType: [],
     amenities: [],
-    houseRules: [],
   });
   const [showFilters, setShowFilters] = useState(false);
-  const propertyType = types;
-  const amenitiesOptions = ["Wi-Fi", "Kitchen", "AC", "TV", "Parking", "Pool"];
-  const houseRulesOptions = ["No Smoking", "No Pets", "No Parties"];
+  const distanceFromLocation = [
+    "Less Than 2Km",
+    "2KM to 5KM",
+    "5KM to 10KM",
+    "More than 10KM",
+  ];
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -49,18 +54,31 @@ const Room = () => {
 
         <aside className={`room_filters ${showFilters ? "show" : ""}`}>
           <h2>Filter Options</h2>
-
           <div className="filter_section">
-            <h3>Property Type</h3>
+            <h3>Select a Location</h3>
+            <GeoNavigatorMap />
+          </div>
+          <div className="filter_section">
+            <h3>Distance From Location</h3>
+            <div className="checkbox_group">
+              {distanceFromLocation.map((dis) => (
+                <label key={dis}>
+                  <input type="checkbox" value={filters.distanceFromLocation} />
+                  <span>{dis}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div className="filter_section">
+            <h3>Category Type</h3>
             <select
-              name="propertyType"
-              value={filters.propertyType}
+              name="categoryType"
+              value={filters.categoryType}
               onChange={handleFilterChange}
             >
-              <option value="">All Types</option>
-              {types.map((type) => (
-                <option key={type.name} value={type.name}>
-                  {type}
+              {categories.map((category) => (
+                <option key={category.name} value={category.name}>
+                  {category.name}
                 </option>
               ))}
             </select>
@@ -80,36 +98,29 @@ const Room = () => {
               <option value="301+">$301+</option>
             </select>
           </div>
-
           <div className="filter_section">
-            <h3>Amenities</h3>
+            <h3>Property Type</h3>
             <div className="checkbox_group">
-              {amenitiesOptions.map((amenity) => (
-                <label key={amenity}>
-                  <input
-                    type="checkbox"
-                    value={amenity}
-                    checked={filters.amenities.includes(amenity)}
-                    onChange={(e) => handleCheckboxChange(e, "amenities")}
-                  />
-                  <span>{amenity}</span>
+              {types.map((type) => (
+                <label key={type.name}>
+                  <input type="checkbox" value={filters.propertyType} />
+                  <span>{type.name}</span>
                 </label>
               ))}
             </div>
           </div>
-
           <div className="filter_section">
-            <h3>House Rules</h3>
+            <h3>Amenities</h3>
             <div className="checkbox_group">
-              {houseRulesOptions.map((rule) => (
-                <label key={rule}>
+              {facilities.map((amenity) => (
+                <label key={amenity.name}>
                   <input
                     type="checkbox"
-                    value={rule}
-                    checked={filters.houseRules.includes(rule)}
-                    onChange={(e) => handleCheckboxChange(e, "houseRules")}
+                    value={amenity.name}
+                    checked={filters.amenities.includes(amenity)}
+                    // onChange={(e) => handleCheckboxChange(e, "amenities")}
                   />
-                  <span>{rule}</span>
+                  <span>{amenity.name}</span>
                 </label>
               ))}
             </div>
