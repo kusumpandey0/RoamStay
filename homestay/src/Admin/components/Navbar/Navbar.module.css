@@ -12,8 +12,6 @@
     z-index: 100;
 }
 
-
-
 .nav_logo {
     display: flex;
     align-items: center;
@@ -48,34 +46,15 @@
     color: #2563eb;
 }
 
-/* Tablet screens */
-@media (max-width: 1024px) {
+/* For laptops and smaller desktops */
+@media (max-width: 1366px) {
     .navbar {
-        padding: 0 20px;
+        height: 65px;
+        padding: 0 25px;
     }
 
     .nav_logo img {
-        width: 100px;
-    }
-}
-
-/* Mobile screens */
-@media (max-width: 600px) {
-    .navbar {
-        height: 60px;
-        padding: 0 15px;
-    }
-
-    .menu_icon {
-        font-size: 22px;
-    }
-
-    .nav_logo img {
-        width: 90px;
-    }
-
-    .navbar h1 {
-        font-size: 18px;
+        width: 110px;
     }
 
     .user_logo {
@@ -83,10 +62,51 @@
     }
 }
 
-/* Small mobile screens */
-@media (max-width: 375px) {
+/* For tablets */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0 20px;
+        height: 60px;
+    }
+
+    .nav_logo img {
+        width: 100px;
+    }
+
+    .navbar h1 {
+        font-size: 18px;
+    }
+
+    .user_logo {
+        font-size: 26px;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+        height: 55px;
+    }
+
+    .nav_logo img {
+        width: 90px;
+    }
+
+    .navbar h1 {
+        font-size: 16px;
+    }
+
+    .user_logo {
+        font-size: 24px;
+    }
+}
+
+/* For small mobile screens */
+@media (max-width: 480px) {
     .navbar {
         padding: 0 10px;
+        height: 50px;
     }
 
     .nav_logo {
@@ -94,6 +114,10 @@
     }
 
     .navbar h1 {
-        font-size: 16px;
+        font-size: 15px;
+    }
+
+    .user_logo {
+        font-size: 22px;
     }
 }

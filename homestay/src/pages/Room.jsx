@@ -143,6 +143,7 @@ const Room = () => {
 
     if (filters.categoryType.length > 0) {
       filtered = filtered.filter((property) => {
+        console.log(property.categoryLists);
         const categories = Array.isArray(property.categoryLists)
           ? property.categoryLists
           : [property.categoryLists];

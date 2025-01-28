@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const cors = require("cors");
 const connectToDb = require("./connections/index");
+
 app.use(cors());
 app.use(express.json());
 
@@ -23,8 +24,8 @@ const destinationRoute = require("./routes/destinationRoute.js");
 app.use("/api/destination", destinationRoute);
 
 //for travelGuide
-const travelGuideRoute=require('./routes/travelGuide.js')
-app.use('/api/travelGuide',travelGuideRoute)
+const travelGuideRoute = require("./routes/travelGuide.js");
+app.use("/api/travelGuide", travelGuideRoute);
 
 //database connectiona and starting the server
 const URL = process.env.MONGO_URL;

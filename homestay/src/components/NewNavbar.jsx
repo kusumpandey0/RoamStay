@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/newNavbar.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { MdArrowDropDownCircle } from "react-icons/md";
 import { useStore } from "../Context/StoreContext"; // Assuming you're using context for state management
@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 const NewNavbar = () => {
   const [dropdownClick, setDropdownClick] = React.useState(false);
   const { jwtUserDetails, setJwtUserDetails } = useStore();
+  const location = useLocation();
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -45,7 +47,13 @@ const NewNavbar = () => {
         <div className={`dropdownlist ${dropdownClick ? "active" : ""}`}>
           {jwtUserDetails ? (
             <div>
-              <NavLink className="dropdownlist_loginlink" to="/wishlist">
+              <NavLink
+                className="dropdownlist_loginlink"
+                to="/wishlist"
+                style={{
+                  color: location.pathname === '/wishlist' ? '#ff0000' : 'inherit'
+                }}
+              >
                 Wish List
               </NavLink>
               <hr />

@@ -1,0 +1,70 @@
+.wishlist-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+}
+
+.wishlist-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .tab {
+    padding: 0.8rem 2.5rem;
+    border: none;
+    background: #f5f5f5;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+
+    &.active {
+      background: #ff385c;
+      color: white;
+      border-color: #ff385c;
+    }
+  }
+}
+
+.wishlist-content {
+  .destinations-grid,
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  p {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .wishlist-container {
+    padding: 1rem;
+  }
+
+  .wishlist-tabs {
+    .tab {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+}

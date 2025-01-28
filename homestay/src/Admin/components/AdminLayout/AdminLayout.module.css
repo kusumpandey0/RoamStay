@@ -7,7 +7,7 @@
 
 .inner_container {
     flex: 1;
-    margin-left: 250px;
+    margin-left: 300px;
     min-height: 100vh;
     transition: all 0.3s ease;
     background: #f8f9fa;
@@ -15,33 +15,47 @@
 }
 
 .inner_container.collapsed {
-    margin-left: 70px;
+    margin-left: 100px;
+}
+
+/* For laptops and smaller desktops */
+@media (max-width: 1366px) {
+    .inner_container {
+        padding: 15px;
+    }
+}
+
+/* For tablets */
+@media (max-width: 1024px) {
+    .inner_container {
+        margin-left: 70px;
+        padding: 15px;
+    }
+
+    .inner_container.collapsed {
+        margin-left: 70px;
+    }
 }
 
 /* For mobile screens */
 @media (max-width: 768px) {
     .inner_container {
-        margin-left: 0;
-        padding: 15px;
-        width: 100%;
+        margin-left: 70px;
+        /* Keep space for mini sidebar */
+        padding: 10px;
+        width: calc(100% - 70px);
+        /* Adjust width to account for sidebar */
     }
 
     .inner_container.collapsed {
-        margin-left: 0;
+        margin-left: 70px;
     }
 }
 
-/* For tablets */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* For small mobile screens */
+@media (max-width: 480px) {
     .inner_container {
         margin-left: 70px;
-        padding: 20px;
-    }
-}
-
-/* For smaller laptops */
-@media (min-width: 1025px) and (max-width: 1366px) {
-    .inner_container {
-        padding: 25px;
+        padding: 8px;
     }
 }
