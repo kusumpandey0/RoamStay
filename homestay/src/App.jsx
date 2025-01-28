@@ -10,6 +10,7 @@ import { AdminLayout } from "./Admin/components/AdminLayout/AdminLayout.jsx";
 import ManageRooms from "./Admin/pages/ManageRooms/ManageRooms.jsx";
 import ManageTravelGuide from "./Admin/pages/ManageTravelGuide/ManageTravelGuide.jsx";
 import ManageDestinations from "./Admin/pages/ManageDestinations/ManageDestinations.jsx";
+import WishList from "./pages/WishList";
 
 const App = () => {
   return (
@@ -23,10 +24,11 @@ const App = () => {
           <Route path="/destinations" element={<Destination />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path='/admin' element={<AdminLayout/>}>
-            <Route index element={<ManageRooms/>}/>
-            <Route path='manageTravelGuides' element={<ManageTravelGuide/>}/>
-            <Route path='manageDestinations' element={<ManageDestinations/>}/>
+          <Route path="/wishlist" element={<WishList />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<ManageRooms />} />
+            <Route path="manageTravelGuides" element={<ManageTravelGuide />} />
+            <Route path="manageDestinations" element={<ManageDestinations />} />
           </Route>
         </Routes>
       </BrowserRouter>

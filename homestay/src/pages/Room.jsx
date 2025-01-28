@@ -17,7 +17,7 @@ const Room = () => {
     categoryType: [],
     priceRange: {
       min: 0,
-      max: 1000,
+      max: 10000,
     },
     propertyType: [],
     amenities: [],
@@ -109,7 +109,7 @@ const Room = () => {
       filters.propertyType.length === 0 &&
       filters.amenities.length === 0 &&
       filters.priceRange.min === 0 &&
-      filters.priceRange.max === 1000
+      filters.priceRange.max === 10000
     ) {
       setFilteredProperties(properties);
     } else {
@@ -409,7 +409,7 @@ const Room = () => {
                 <input
                   type="range"
                   min="0"
-                  max="1000"
+                  max="10000"
                   step="50"
                   value={filters.priceRange.min}
                   onChange={handlePriceChange("min")}
@@ -418,7 +418,7 @@ const Room = () => {
                 <input
                   type="range"
                   min="0"
-                  max="1000"
+                  max="10000"
                   step="50"
                   value={filters.priceRange.max}
                   onChange={handlePriceChange("max")}
@@ -443,7 +443,7 @@ const Room = () => {
                     value={filters.priceRange.max}
                     onChange={handlePriceChange("max")}
                     min={filters.priceRange.min}
-                    max="1000"
+                    max="10000"
                   />
                 </div>
               </div>

@@ -39,7 +39,6 @@ const ManageRooms = () => {
       );
       fetchPendingRooms();
       fetchProperties();
-      fetchPendingRooms();
     } catch (err) {
       console.log(err);
     }

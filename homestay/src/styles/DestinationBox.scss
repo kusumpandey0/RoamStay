@@ -5,7 +5,7 @@
   display: flex;
   gap: 25px;
   width: 100%;
-  
+
   &_list {
     position: relative;
     width: 100%;
@@ -13,6 +13,7 @@
     background-color: white;
     border-radius: 15px;
     overflow: hidden;
+    padding: 10px;
     @include shadow;
     transition: all 0.3s ease;
 
@@ -66,7 +67,6 @@
     }
 
     &_info {
-      padding: 20px;
       font-size: 15px;
       line-height: 1.5;
       color: $darkgrey;
@@ -129,7 +129,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 10px;
-    
+
     &::-webkit-scrollbar {
       display: none;
     }

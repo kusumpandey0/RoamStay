@@ -105,11 +105,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    &:hover{
-        background-color: red;
-        color: white;
-    }
+  
 }
+
 
 
 @media (max-width:600px) {
