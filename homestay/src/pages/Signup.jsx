@@ -14,6 +14,8 @@ import NewNavbar from "../components/NewNavbar";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [error,setError]=useState({});
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -24,10 +26,13 @@ const Signup = () => {
     profileimage: null,
   });
 
+
   const [pwdmatch, setPwdmatch] = useState(true);
 
   const [passwordVisible, setPasswordVisible] = useState(false); // Password visibility state
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // Confirm password visibility state
+
+
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -44,8 +49,60 @@ const Signup = () => {
     );
   }, [formData.password, formData.confirmpassword]);
 
+
+  const validate=()=>{
+    let formErrors={};
+    if(!formData.firstname.trim()){
+      formErrors.firstname="firstname Required *";
+    }
+    else if(!/^[a-zA-Z]{2,15}$/.test(formData.firstname))
+    {
+      formErrors.firstname="Invalid firstname";
+    }
+
+    if(!formData.lastname.trim()){
+      formErrors.lastname="lastname Required *";
+    }
+    else if(!/^[a-zA-Z]{2,15}$/.test(formData.lastname))
+    {
+      formErrors.lastname="Invalid firstname";
+    }
+    
+    if(!formData.email.trim()){
+      formErrors.email="Email is Required *";
+    }else if(!/^([A-Za-z0-9]+(?:[.#_][A-Za-z\d]+)*@[A-Za-z]+)(\.[A-Za-z]{2,3})$/.test(formData.email))
+    {
+      formErrors.email="Incorrect email format ";
+    }
+    
+    if(!formData.phonenumber.trim())
+    {
+      formErrors.phonenumber="Phone number is Required *";
+    }
+    else if(!/^(98|97|96)[0-9]{8}$/.test(formData.phonenumber))
+    {
+      formErrors.phonenumber="Invalid phone Number";
+    }
+    
+    if(!formData.password.trim()){
+      formErrors.password="Password Is required *";
+    }
+    else if(!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W_]).{8,}$/.test(formData.password)){
+      formErrors.password="Use atleast a uppercase lowercase a digit and a symbol ";
+    }
+
+  return formErrors;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    
+    const validationError=validate();
+    if(Object.keys(validationError).length>0){
+      setError(validationError);
+    }
+    else{
     try {
       const register_form = new FormData();
 
@@ -85,6 +142,7 @@ const Signup = () => {
         console.log("Error:", err.message);
       }
     }
+  }
   };
 
   const handleRemoveProfileImage = () => {
@@ -110,32 +168,35 @@ const Signup = () => {
               placeholder="First Name"
               value={formData.firstname}
               onChange={handleInputChange}
-              required
+             
             />
+            {error.firstname&&  <p className="error">{error.firstname}</p>}
             <input
               type="text"
               name="lastname"
               placeholder="Last Name"
               value={formData.lastname}
               onChange={handleInputChange}
-              required
+         
             />
+               {error.lastname&&  <p className="error">{error.lastname}</p>}
             <input
               type="email"
               name="email"
               placeholder="E-mail"
               value={formData.email}
               onChange={handleInputChange}
-              required
+          
             />
+               {error.email&&  <p className="error">{error.email}</p>}
             <input
               type="text"
               name="phonenumber"
               placeholder="Phone Number"
               value={formData.phonenumber}
               onChange={handleInputChange}
-              required
             />
+               {error.phonenumber&&  <p className="error">{error.phonenumber}</p>}
             <div className="password-field">
               <input
                 type={passwordVisible ? "text" : "password"} // Toggle password visibility
@@ -143,8 +204,8 @@ const Signup = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
-                required
               />
+                 {error.password&&  <p className="error">{error.password}</p>}
               <div
                 className="eye-icon"
                 onClick={() => setPasswordVisible(!passwordVisible)} // Toggle visibility
@@ -159,7 +220,6 @@ const Signup = () => {
                 placeholder="Confirm Password"
                 value={formData.confirmpassword}
                 onChange={handleInputChange}
-                required
               />
               <div
                 className="eye-icon"
