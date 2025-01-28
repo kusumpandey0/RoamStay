@@ -7,18 +7,11 @@ const ProtectedRoute = ({ children, allowedRole }) => {
   if (!token) {
     return <Navigate to="/login" replace />;
   }
-
   if (role !== allowedRole) {
     return (
-      <div >
-        <h1 >
-          You are not authorized to access this page.
-        </h1>
-        <button
-          onClick={() => window.history.back()} 
-        >
-          Go Back
-        </button>
+      <div>
+        <h1>You are not authorized to access this page.</h1>
+        <button onClick={() => window.history.back()}>Go Back</button>
       </div>
     );
   }

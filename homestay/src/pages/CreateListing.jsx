@@ -6,6 +6,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import { FiMinusCircle } from "react-icons/fi";
 import axios from "axios";
 import PhotoUpload from "../components/PhotoUpload.jsx";
+import Footer from "../components/Footer";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import CSS
 import Navbar from "../components/Navbar.jsx";
@@ -296,6 +297,7 @@ const CreateListing = () => {
           </button>
         </form>
       </div>
+      <Footer />
     </>
   );
 };

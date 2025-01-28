@@ -61,7 +61,7 @@ const ManageTravelGuide = () => {
 
             <div className="guide-info">
               <h2>{guide.name}</h2>
-
+              <p>Phone Number:{guide.phoneNumber}</p>
               <div className="info-item">
                 <FaEnvelope />
                 <span>{guide.email}</span>

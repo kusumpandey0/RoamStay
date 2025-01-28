@@ -14,7 +14,7 @@ import NewNavbar from "../components/NewNavbar";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [error,setError]=useState({});
+  const [error, setError] = useState({});
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -26,13 +26,10 @@ const Signup = () => {
     profileimage: null,
   });
 
-
   const [pwdmatch, setPwdmatch] = useState(true);
 
   const [passwordVisible, setPasswordVisible] = useState(false); // Password visibility state
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // Confirm password visibility state
-
-
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -49,100 +46,99 @@ const Signup = () => {
     );
   }, [formData.password, formData.confirmpassword]);
 
-
-  const validate=()=>{
-    let formErrors={};
-    if(!formData.firstname.trim()){
-      formErrors.firstname="firstname Required *";
-    }
-    else if(!/^[a-zA-Z]{2,15}$/.test(formData.firstname))
-    {
-      formErrors.firstname="Invalid firstname";
+  const validate = () => {
+    let formErrors = {};
+    if (!formData.firstname.trim()) {
+      formErrors.firstname = "firstname Required *";
+    } else if (!/^[a-zA-Z]{2,15}$/.test(formData.firstname)) {
+      formErrors.firstname = "Invalid firstname";
     }
 
-    if(!formData.lastname.trim()){
-      formErrors.lastname="lastname Required *";
-    }
-    else if(!/^[a-zA-Z]{2,15}$/.test(formData.lastname))
-    {
-      formErrors.lastname="Invalid firstname";
-    }
-    
-    if(!formData.email.trim()){
-      formErrors.email="Email is Required *";
-    }else if(!/^([A-Za-z0-9]+(?:[.#_][A-Za-z\d]+)*@[A-Za-z]+)(\.[A-Za-z]{2,3})$/.test(formData.email))
-    {
-      formErrors.email="Incorrect email format ";
-    }
-    
-    if(!formData.phonenumber.trim())
-    {
-      formErrors.phonenumber="Phone number is Required *";
-    }
-    else if(!/^(98|97|96)[0-9]{8}$/.test(formData.phonenumber))
-    {
-      formErrors.phonenumber="Invalid phone Number";
-    }
-    
-    if(!formData.password.trim()){
-      formErrors.password="Password Is required *";
-    }
-    else if(!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W_]).{8,}$/.test(formData.password)){
-      formErrors.password="Use atleast a uppercase lowercase a digit and a symbol ";
+    if (!formData.lastname.trim()) {
+      formErrors.lastname = "lastname Required *";
+    } else if (!/^[a-zA-Z]{2,15}$/.test(formData.lastname)) {
+      formErrors.lastname = "Invalid firstname";
     }
 
-  return formErrors;
-  }
+    if (!formData.email.trim()) {
+      formErrors.email = "Email is Required *";
+    } else if (
+      !/^([A-Za-z0-9]+(?:[.#_][A-Za-z\d]+)*@[A-Za-z]+)(\.[A-Za-z]{2,3})$/.test(
+        formData.email
+      )
+    ) {
+      formErrors.email = "Incorrect email format ";
+    }
+
+    if (!formData.phonenumber.trim()) {
+      formErrors.phonenumber = "Phone number is Required *";
+    } else if (!/^(98|97|96)[0-9]{8}$/.test(formData.phonenumber)) {
+      formErrors.phonenumber = "Invalid phone Number";
+    }
+
+    if (!formData.password.trim()) {
+      formErrors.password = "Password Is required *";
+    } else if (
+      !/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[\W_]).{8,}$/.test(
+        formData.password
+      )
+    ) {
+      formErrors.password =
+        "Use atleast a uppercase,lowercase,a digit and a symbol.Password should be atleast 8 characters long. ";
+    }
+
+    return formErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
-    const validationError=validate();
-    if(Object.keys(validationError).length>0){
+
+    const validationError = validate();
+    if (Object.keys(validationError).length > 0) {
       setError(validationError);
-    }
-    else{
-    try {
-      const register_form = new FormData();
+    } else {
+      try {
+        const register_form = new FormData();
 
-      // Append formData values to FormData object
-      for (let key in formData) {
-        register_form.append(key, formData[key] || "");
-      }
-
-      // Axios POST request
-      const response = await axios.post(
-        "http://localhost:3001/api/auth/signup",
-        register_form,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        // Append formData values to FormData object
+        for (let key in formData) {
+          register_form.append(key, formData[key] || "");
         }
-      );
 
-      console.log("Response:", response.data);
-
-      if (response.status === 200) {
-        toast.success("User registered successfully!");
-        // Delay navigation to login page to show toast first
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      }
-    } catch (err) {
-      if (err.response) {
-        toast.error(
-          `Registration failed: ${err.response.data.message || "Unknown error"}`
+        // Axios POST request
+        const response = await axios.post(
+          "http://localhost:3001/api/auth/signup",
+          register_form,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
-        console.log("Error:", err.response.data);
-      } else {
-        toast.error(`Registration failed: ${err.message}`);
-        console.log("Error:", err.message);
+
+        console.log("Response:", response.data);
+
+        if (response.status === 200) {
+          toast.success("User registered successfully!");
+          // Delay navigation to login page to show toast first
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        }
+      } catch (err) {
+        if (err.response) {
+          toast.error(
+            `Registration failed: ${
+              err.response.data.message || "Unknown error"
+            }`
+          );
+          console.log("Error:", err.response.data);
+        } else {
+          toast.error(`Registration failed: ${err.message}`);
+          console.log("Error:", err.message);
+        }
       }
     }
-  }
   };
 
   const handleRemoveProfileImage = () => {
@@ -168,27 +164,24 @@ const Signup = () => {
               placeholder="First Name"
               value={formData.firstname}
               onChange={handleInputChange}
-             
             />
-            {error.firstname&&  <p className="error">{error.firstname}</p>}
+            {error.firstname && <p className="error">{error.firstname}</p>}
             <input
               type="text"
               name="lastname"
               placeholder="Last Name"
               value={formData.lastname}
               onChange={handleInputChange}
-         
             />
-               {error.lastname&&  <p className="error">{error.lastname}</p>}
+            {error.lastname && <p className="error">{error.lastname}</p>}
             <input
               type="email"
               name="email"
               placeholder="E-mail"
               value={formData.email}
               onChange={handleInputChange}
-          
             />
-               {error.email&&  <p className="error">{error.email}</p>}
+            {error.email && <p className="error">{error.email}</p>}
             <input
               type="text"
               name="phonenumber"
@@ -196,7 +189,7 @@ const Signup = () => {
               value={formData.phonenumber}
               onChange={handleInputChange}
             />
-               {error.phonenumber&&  <p className="error">{error.phonenumber}</p>}
+            {error.phonenumber && <p className="error">{error.phonenumber}</p>}
             <div className="password-field">
               <input
                 type={passwordVisible ? "text" : "password"} // Toggle password visibility
@@ -205,7 +198,7 @@ const Signup = () => {
                 value={formData.password}
                 onChange={handleInputChange}
               />
-                 {error.password&&  <p className="error">{error.password}</p>}
+              {error.password && <p className="error">{error.password}</p>}
               <div
                 className="eye-icon"
                 onClick={() => setPasswordVisible(!passwordVisible)} // Toggle visibility

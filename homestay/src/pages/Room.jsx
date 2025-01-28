@@ -9,6 +9,8 @@ import { IoMdClose } from "react-icons/io";
 import { categories, facilities, types } from "../categories";
 import { useStore } from "../Context/StoreContext";
 import axios from "axios";
+import Footer from "../components/Footer";
+import { TbLemon2 } from "react-icons/tb";
 
 const Room = () => {
   const { url, location, properties, setProperties } = useStore();
@@ -90,7 +92,7 @@ const Room = () => {
     const lon1 = toRad(userLocation.lng);
     const lat2 = toRad(propertyLocation[1]);
     const lon2 = toRad(propertyLocation[0]);
-    console.log("user", lat1, lon1);
+    console.log("user", lat2, lon2);
     const dlat = lat2 - lat1;
     const dlon = lon2 - lon1;
 
@@ -99,7 +101,7 @@ const Room = () => {
       Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in km
-
+    console.log(distance);
     return distance;
   };
   useEffect(() => {
@@ -143,7 +145,6 @@ const Room = () => {
 
     if (filters.categoryType.length > 0) {
       filtered = filtered.filter((property) => {
-        console.log(property.categoryLists);
         const categories = Array.isArray(property.categoryLists)
           ? property.categoryLists
           : [property.categoryLists];
@@ -273,7 +274,6 @@ const Room = () => {
       });
 
       if (propertiesOnRoute.length === 0) {
-        alert("No properties found along this route");
       }
 
       setFilteredProperties(propertiesOnRoute);
@@ -287,56 +287,68 @@ const Room = () => {
   const isPropertyAlongRoute = (property, routePath) => {
     const propertyLat = property.location[1];
     const propertyLng = property.location[0];
-    const maxDistance = 2; // 2km threshold
+    const maxDistance = 1; // 1 km threshold
 
     // Check each segment of the route
     for (let i = 0; i < routePath.length - 1; i++) {
       const start = routePath[i];
       const end = routePath[i + 1];
 
-      const distance = calculateDistanceToSegment(
+      // Calculate the exact distance from the property to the segment
+      const distance = calculateExactDistanceToSegment(
         { lat: propertyLat, lng: propertyLng },
         { lat: start.lat, lng: start.lng },
         { lat: end.lat, lng: end.lng }
       );
-
+      console.log(distance);
+      // If the property is within the max distance of the segment, return true
       if (distance <= maxDistance) {
         return true;
       }
     }
+
     return false;
   };
 
-  const calculateDistanceToSegment = (point, start, end) => {
-    const R = 6371; // Earth's radius in km
+  // Calculate the exact distance from the point to the closest point on the segment
+  const calculateExactDistanceToSegment = (point, start, end) => {
+    // Convert points to radians
+    const p = { lat: toRad(point.lat), lng: toRad(point.lng) };
+    const s = { lat: toRad(start.lat), lng: toRad(start.lng) };
+    const e = { lat: toRad(end.lat), lng: toRad(end.lng) };
 
-    // Convert all points to radians
-    const p = {
-      lat: toRad(point.lat),
-      lng: toRad(point.lng),
+    // Calculate the distance to the endpoints
+    const distanceToStart = haversineDistance(p, s);
+    const distanceToEnd = haversineDistance(p, e);
+
+    // Calculate the bearing and project the point onto the segment
+    const dX = e.lng - s.lng;
+    const dY = e.lat - s.lat;
+
+    // Handle degenerate case where the start and end points are the same
+    const segmentLengthSquared = dX ** 2 + dY ** 2;
+    if (segmentLengthSquared === 0) return distanceToStart; // Start and end are the same
+
+    // Calculate projection scalar t
+    const t =
+      ((p.lng - s.lng) * dX + (p.lat - s.lat) * dY) / segmentLengthSquared;
+
+    // Clamp t to the range [0, 1] (projection must be on the segment)
+    const tClamped = Math.max(0, Math.min(1, t));
+
+    // Find the closest point on the segment
+    const closestPoint = {
+      lat: s.lat + tClamped * dY,
+      lng: s.lng + tClamped * dX,
     };
-    const s = {
-      lat: toRad(start.lat),
-      lng: toRad(start.lng),
-    };
-    const e = {
-      lat: toRad(end.lat),
-      lng: toRad(end.lng),
-    };
 
-    // Calculate the cross track distance
-    const d13 = haversineDistance(s, p);
-    const bearing13 = calculateBearing(s, p);
-    const bearing12 = calculateBearing(s, e);
-
-    const crossTrackDistance =
-      Math.asin(Math.sin(d13 / R) * Math.sin(bearing13 - bearing12)) * R;
-
-    return Math.abs(crossTrackDistance);
+    // Calculate the distance from the point to the closest point on the segment
+    return haversineDistance(p, closestPoint);
   };
 
+  // Haversine formula to calculate the distance between two points
   const haversineDistance = (p1, p2) => {
-    const R = 6371; // Earth's radius in km
+    const R = 6371; // Radius of the Earth in km
     const dLat = p2.lat - p1.lat;
     const dLon = p2.lng - p1.lng;
 
@@ -349,14 +361,6 @@ const Room = () => {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
-  };
-
-  const calculateBearing = (p1, p2) => {
-    const y = Math.sin(p2.lng - p1.lng) * Math.cos(p2.lat);
-    const x =
-      Math.cos(p1.lat) * Math.sin(p2.lat) -
-      Math.sin(p1.lat) * Math.cos(p2.lat) * Math.cos(p2.lng - p1.lng);
-    return Math.atan2(y, x);
   };
 
   return (
@@ -582,6 +586,7 @@ const Room = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -35,20 +35,18 @@ const Login = () => {
         const { token, user } = response.data;
 
         if (token && user) {
-          
           localStorage.setItem("token", token);
-          localStorage.setItem("role",user.role)
+          localStorage.setItem("role", user.role);
           setToken(token);
-        toast.success("Login successful! Welcome back.");
+          toast.success("Login successful! Welcome back.");
 
           // Delay navigation to home after the toast duration (1000ms)
           setTimeout(() => {
-            if(user.role==="admin"){
-              navigate('/admin')
-            }else{
-              navigate('/')
+            if (user.role === "admin") {
+              navigate("/admin");
+            } else {
+              navigate("/");
             }
-            
           }, 1000);
         } else {
           console.log("Error: Missing token or user in response");
