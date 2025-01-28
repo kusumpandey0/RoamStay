@@ -28,13 +28,13 @@ const Room = () => {
   const [showRouteMaps, setShowRouteMaps] = useState(false);
   const [routePoints, setRoutePoints] = useState({
     start: {
-      lat: "",
-      lng: " ",
+      lat: null,
+      lng: null,
       address: "",
     },
     end: {
-      lat: " ",
-      lng: " ",
+      lat: null,
+      lng: null,
       address: "",
     },
   });
@@ -197,47 +197,136 @@ const Room = () => {
       },
     }));
   };
+  const getRouteFromOSRM = async (start, end) => {
+    try {
+      const routeUrl = `http://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&steps=true`;
+      const response = await axios.get(routeUrl);
+      const routeGeometry = response.data.routes[0].geometry; // Get the polyline string
+      const decodedRoute = decodePolyline(routeGeometry);
+      console.log(decodedRoute);
+      return decodedRoute; // Decode the polyline
+    } catch (error) {
+      console.error("Error fetching route from OSRM", error);
+      return [];
+    }
+  };
+  const decodePolyline = (encoded) => {
+    let points = [];
+    let index = 0;
+    let lat = 0;
+    let lng = 0;
 
+    while (index < encoded.length) {
+      let b,
+        shift = 0,
+        result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+
+      let deltaLat = result & 1 ? ~(result >> 1) : result >> 1;
+      lat += deltaLat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+
+      let deltaLng = result & 1 ? ~(result >> 1) : result >> 1;
+      lng += deltaLng;
+
+      points.push({ lat: lat / 1e5, lng: lng / 1e5 });
+    }
+
+    return points;
+  };
   // Update findPropertiesOnRoute to use new route points
-  const findPropertiesOnRoute = () => {
+  const findPropertiesOnRoute = async () => {
     if (!routePoints.start.lat || !routePoints.end.lat) {
       alert("Please select both start and end points");
       return;
     }
 
-    const bounds = calculateRouteBounds();
-    const propertiesOnRoute = properties.filter((property) => {
-      return isPropertyNearRoute(property.location, bounds);
-    });
+    const routePath = await getRouteFromOSRM(
+      routePoints.start,
+      routePoints.end
+    );
+    console.log(routePath);
+    if (routePath.length === 0) {
+      alert("No route found!");
+      return;
+    }
 
+    const propertiesOnRoute = properties.filter((property) => {
+      return isPropertyAlongRoute(property, routePath);
+    });
+    console.log("proppppp", propertiesOnRoute);
     setFilteredProperties(propertiesOnRoute);
     setShowRouteMaps(false);
   };
 
-  const calculateRouteBounds = () => {
-    const minLat = Math.min(routePoints.start.lat, routePoints.end.lat);
-    const maxLat = Math.max(routePoints.start.lat, routePoints.end.lat);
-    const minLng = Math.min(routePoints.start.lng, routePoints.end.lng);
-    const maxLng = Math.max(routePoints.start.lng, routePoints.end.lng);
+  const calculateHaversianDistanceRoute = (
+    startPoint,
+    endPoint,
+    propertyLocation
+  ) => {
+    const R = 6371; // Radius of Earth in kilometers
 
-    // Add 2km buffer
-    const buffer = 0.02; // Approximately 2km in degrees
-    return {
-      minLat: minLat - buffer,
-      maxLat: maxLat + buffer,
-      minLng: minLng - buffer,
-      maxLng: maxLng + buffer,
-    };
-  };
+    // Convert latitude and longitude from degrees to radians
+    const lat1 = toRad(startPoint.lat);
+    const lon1 = toRad(startPoint.lng);
+    const lat2 = toRad(endPoint.lat);
+    const lon2 = toRad(endPoint.lng);
 
-  const isPropertyNearRoute = (propertyLocation, bounds) => {
-    const [lng, lat] = propertyLocation;
-    return (
-      lat >= bounds.minLat &&
-      lat <= bounds.maxLat &&
-      lng >= bounds.minLng &&
-      lng <= bounds.maxLng
+    const propertyLat = toRad(propertyLocation.lat);
+    const propertyLng = toRad(propertyLocation.lng);
+    const dlat = lat2 - lat1;
+    const dlon = lon2 - lon1;
+    const a =
+      Math.sin(dlat / 2) * Math.sin(dlat / 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceBetweenRoute = R * c;
+    console.log(distanceBetweenRoute);
+
+    const area = Math.abs(
+      (lat1 - propertyLat) * (lon2 - lon1) -
+        (lat2 - propertyLat) * (lon1 - propertyLng)
     );
+    console.log(area);
+    // Calculate the distance from the property to the route
+    const distanceFromRoute = area / distanceBetweenRoute;
+    console.log("disfromroute", distanceFromRoute);
+    console.log("return", distanceFromRoute <= 2 ? distanceFromRoute : 0);
+    return distanceFromRoute <= 2 ? distanceFromRoute : 0; // Return the distance if within the max threshold (e.g., 2 km)
+  };
+  const isPropertyAlongRoute = (property, routePath) => {
+    const propertyLat = property.location[1]; // Assuming the propertyLocation array is [lng, lat]
+    const propertyLng = property.location[0];
+    const maxDistance = 1; // Max distance (2 km)
+
+    // Loop through each segment in the route path
+    for (let i = 0; i < routePath.length - 1; i++) {
+      const start = routePath[i];
+      const end = routePath[i + 1];
+
+      // Calculate the distance between the property and the route segment
+      const distance = calculateHaversianDistanceRoute(
+        { lat: start.lat, lng: start.lng }, // Start of the segment
+        { lat: end.lat, lng: end.lng }, // End of the segment
+        { lat: propertyLat, lng: propertyLng } // Property location
+      );
+      if (distance <= maxDistance) {
+        return true; // Property is close to the route
+      }
+    }
+
+    return false; // Property is not along the route
   };
 
   return (
@@ -426,7 +515,7 @@ const Room = () => {
                         start: {
                           lat: location.lat,
                           lng: location.lng,
-                          address: address
+                          address,
                         },
                       }));
                     }}
@@ -443,7 +532,7 @@ const Room = () => {
                         end: {
                           lat: location.lat,
                           lng: location.lng,
-                          address: address
+                          address,
                         },
                       }));
                     }}
