@@ -92,6 +92,30 @@
         width: 250px;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+}
+.logout{
+    color: black;
+    font-size: 3vw;
+    position: absolute;
+    bottom: 15px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        background-color: red;
+        color: white;
+    }
+}
+
+
+@media (max-width:600px) {
+    .sidebar{
+        position: absolute;
+        width: 70%;
     }
 
     .sidebar.open {
@@ -132,4 +156,4 @@
     .sidebar_overlay.show {
         display: block;
     }
-}
+}}
