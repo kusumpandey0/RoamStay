@@ -3,11 +3,10 @@ const User=require('../models/User')
 const createDestination=async(req,res)=>{
     try{
         const {id,firstname}=req.user;
-        console.log(req.user);
         
         const{title,description}=req.body;
-        const destImages=req.files;
-        console.log((req.files).length);
+        const destImages=req.files.images;
+        
 
         const destImagesPath=destImages.map((file)=>file.path)
             console.log("yo"+destImagesPath);

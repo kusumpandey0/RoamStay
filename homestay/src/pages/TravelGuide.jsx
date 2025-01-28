@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewNavbar from "../components/NewNavbar";
 import { useStore } from "../Context/StoreContext";
 import "../styles/TravelGuide.scss";
 import { FaStar, FaPhone, FaEnvelope, FaLanguage } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import axios from 'axios'
 
 const TravelGuide = () => {
-  const { setMenu } = useStore();
+  const { setMenu,url,token } = useStore();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -22,19 +23,7 @@ const TravelGuide = () => {
   });
 
   // Mock data for guides
-  const guides = [
-    {
-      id: 1,
-      name: "John Doe",
-      photo: "/guide1.jpg",
-      rating: 4.8,
-      experience: "5 years",
-      languages: ["English", "Nepali", "Hindi"],
-      locations: ["Kathmandu", "Pokhara", "Chitwan"],
-      about: "Experienced guide specializing in cultural tours and trekking expeditions. Deep knowledge of local history and customs."
-    },
-    // Add more guides...
-  ];
+  const [guides,setGuides] =useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,13 +40,69 @@ const TravelGuide = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+
+    const data=new FormData();
+    data.append("name",formData.name)
+    data.append("email",formData.email)
+    data.append("phone",formData.phone)
+    data.append("languages",formData.languages)
+    data.append("experience",formData.experience)
+    data.append("locations",formData.locations)
+    data.append("about",formData.about)
+    data.append("photo",formData.photo)
+    data.append("certificate",formData.certificate)
+    data.append("citizenship",formData.citizenship)
+
     // Handle form submission
     console.log(formData);
-  };
 
+    try{
+      console.log(token);
+      
+        const res=await axios.post(`${url}/api/travelGuide/create`,data,
+         { headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+        )
+        fetchTravelGuide();
+        console.log(res);
+        
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          languages: "",
+          experience: "",
+          locations: "",
+          about: "",
+          photo: null,
+          certificate: null,
+          citizenship: null
+        })
+    }catch(err){
+        console.log(err.response.data.message);
+        
+    }
+  };
   setMenu("travelguides");
+
+  const fetchTravelGuide=async()=>{
+    try{
+        const res=await axios.get(`${url}/api/travelGuide/read`);
+        console.log(res);
+        setGuides(res?.data?.data);
+    }catch(err){
+      console.log(err.response.data.message);
+      
+    }
+  }
+  useEffect(()=>{
+      fetchTravelGuide()
+  },[])
+
 
   return (
     <div className="travel_guide_page">
@@ -75,18 +120,15 @@ const TravelGuide = () => {
 
         {!showForm ? (
           <div className="guides_list">
-            {guides.map(guide => (
-              <div key={guide.id} className="guide_card">
+            {guides?.map(guide => (
+              <div key={guide._id} className="guide_card">
                 <div className="guide_photo">
-                  <img src={guide.photo} alt={guide.name} />
+                  <img src={`${url}/${guide.profilePhoto}`} alt={guide.name} />
                 </div>
                 <div className="guide_info">
                   <div className="guide_header">
                     <h3>{guide.name}</h3>
-                    <div className="rating">
-                      <FaStar />
-                      <span>{guide.rating}</span>
-                    </div>
+                   
                   </div>
                   <div className="guide_details">
                     <p className="experience">
@@ -94,11 +136,11 @@ const TravelGuide = () => {
                     </p>
                     <p className="languages">
                       <FaLanguage />
-                      <span>{guide.languages.join(", ")}</span>
+                      <span>{guide.languages}</span>
                     </p>
                     <p className="locations">
                       <MdLocationOn />
-                      <span>{guide.locations.join(", ")}</span>
+                      <span>{guide.locations}</span>
                     </p>
                   </div>
                   <p className="about">{guide.about}</p>

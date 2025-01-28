@@ -1,5 +1,6 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 // Create the context
 const StoreContext = createContext();
@@ -19,6 +20,8 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [jwtUserDetails, setJwtUserDetails] = useState(null);
   const [photos, setPhotos] = useState([]);
+
+  const [destinations, setDestinations] = useState([]);
   // const fetchUserDetails = () => {
   //   try {
   //   } catch (err) {
@@ -59,6 +62,22 @@ export const StoreProvider = ({ children }) => {
     setSuggestions([]);
   };
 
+    //for fetching destination data 
+    const fetchDestination=async()=>{
+      try{
+          const res=await axios.get(`${url}/api/destination/read`)
+                  setDestinations(res.data.data)
+          
+      }catch(err){
+        console.log(err);
+        
+      }
+    }
+    
+    useEffect(()=>{
+      fetchDestination();
+    },[])
+
   // Return the provider with state values
   return (
     <StoreContext.Provider
@@ -80,6 +99,8 @@ export const StoreProvider = ({ children }) => {
         photos,
         setPhotos,
         url,
+        destinations, setDestinations,
+        fetchDestination
       }}
     >
       {children}
