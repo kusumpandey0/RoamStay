@@ -1,0 +1,136 @@
+@import "./variables.scss";
+@import "./breakpoints.scss";
+
+.curr_location {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 0 5px;
+
+  input {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: $pinkred;
+  }
+
+  label {
+    color: $darkgrey;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
+.suggestion_component {
+  position: relative;
+  margin: 20px 0;
+
+  .suggestion_input {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border: 2px solid $grey;
+    border-radius: 12px;
+    font-size: 15px;
+    color: $blue;
+    transition: all 0.3s ease;
+    background: white;
+
+    &::placeholder {
+      color: $darkgrey;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $pinkred;
+      box-shadow: 0 2px 8px rgba($pinkred, 0.1);
+    }
+
+    &:hover {
+      border-color: $pinkred;
+    }
+  }
+
+  .suggestionlistbox {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-top: 5px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    max-height: 300px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $lightgrey;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $grey;
+      border-radius: 4px;
+
+      &:hover {
+        background: $darkgrey;
+      }
+    }
+
+    &_lists {
+      padding: 15px 20px;
+      border-bottom: 1px solid $lightgrey;
+      color: $blue;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: rgba($pinkred, 0.05);
+        color: $pinkred;
+      }
+    }
+  }
+}
+
+.leaflet-container {
+  border: 2px solid $grey;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin: 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    border-color: $pinkred;
+  }
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+
+  a {
+    border-radius: 8px !important;
+    color: $blue !important;
+    transition: all 0.3s ease !important;
+
+    &:hover {
+      color: $pinkred !important;
+    }
+  }
+}

@@ -20,8 +20,6 @@ const RoomCard = ({
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { url } = useStore();
-  console.log("roomcard");
-  console.log(`${url}/${images[0]}`);
   return (
     <div className="room_container">
       <div className="roomcard">
