@@ -6,19 +6,19 @@ import { LiaHotelSolid } from "react-icons/lia";
 import { IoIosLogOut } from "react-icons/io";
 const routeArray=[
     {
-        path:'/admin',
-        name:"Manage Rooms",
-        icon:<LiaHotelSolid className={styles.icon}/>
+        path: '/admin',
+        name: "Manage Rooms",
+        icon: <LiaHotelSolid className={styles.icon} />
     },
     {
-        path:'/admin/manageTravelGuides',
-        name:"Manage TravelGuides",
-        icon:<IoIosMan className={styles.icon}/>
+        path: '/admin/manageTravelGuides',
+        name: "Manage TravelGuides",
+        icon: <IoIosMan className={styles.icon} />
     },
     {
-        path:'/admin/manageDestinations',
-        name:"Manage Destinations",
-        icon:<FaPlaceOfWorship  className={styles.icon}/>
+        path: '/admin/manageDestinations',
+        name: "Manage Destinations",
+        icon: <FaPlaceOfWorship className={styles.icon} />
     },
    
 
@@ -52,7 +52,5 @@ export const Sidebar=({isOpen})=>{
                     </div>
             </div>
         </>
-    
-)
-    
-}
+    );
+};

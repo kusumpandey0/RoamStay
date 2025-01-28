@@ -87,20 +87,22 @@ const TravelGuide = () => {
   };
   setMenu("travelguides");
 
-  const fetchTravelGuide=async()=>{
-    try{
-        const res=await axios.get(`${url}/api/travelGuide/approvedGuide`);
-        console.log(res);
-        setGuides(res?.data?.data);
-    }catch(err){
+  const fetchTravelGuide = async () => {
+    try {
+      const res = await axios.get(`${url}/api/travelGuide/approvedGuide`);
+      console.log(res);
+      setGuides(res?.data?.data);
+    } catch (err) {
       console.log(err.response.data.message);
     }
-  }
-  useEffect(()=>{
-      fetchTravelGuide();
-  },[])
-
-
+  };
+  useEffect(() => {
+    fetchTravelGuide();
+  }, []);
+  const [contactBtn, setContactBtn] = useState(false);
+  const handleContactbtn = () => {
+    setContactBtn((prev) => !prev);
+  };
   return (
     <div className="travel_guide_page">
       <NewNavbar />
@@ -140,7 +142,13 @@ const TravelGuide = () => {
                     </p>
                   </div>
                   <p className="about">{guide.about}</p>
-                  <button className="contact_btn">Contact Guide</button>
+                  <button
+                    className="contact_btn"
+                    onClick={() => handleContactbtn()}
+                  >
+                    Contact Guide
+                  </button>
+                  {contactBtn && guide.phonenumber}
                 </div>
               </div>
             ))}

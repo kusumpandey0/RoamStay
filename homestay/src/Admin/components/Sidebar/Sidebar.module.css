@@ -1,18 +1,28 @@
-.sidebar{
-    width: 19vw;
+.sidebar {
+    width: 300px;
     height: 100vh;
     background-color: #040D2F;
-    transition:0.5s linear;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
-.mini_sidebar{
+
+.mini_sidebar {
+    width: 100px;
     height: 100vh;
     background-color: #040D2F;
-    width: 8vw;
-    overflow: hidden;
-    float: left;
-    transition:0.5s linear;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
-.menu_icon{
+
+.menu_icon {
     color: #fff;
     font-size: 4vw;
     text-align: end;
@@ -20,47 +30,68 @@
     cursor: pointer;
 }
 
-.sidebar_options{
+.sidebar_options {
     display: flex;
-    margin-top: 15vh;
     flex-direction: column;
-    gap: 8vh 0;
-    padding: 7vh 2vh ;
+    gap: 15px;
+    padding: 20px 15px;
+    margin-top: 80px;
 }
 
-.open_sidebar_option{
-    height: 8vh;
+.open_sidebar_option {
     display: flex;
     align-items: center;
-    padding: 1vh 2vw;
-    gap:2vw;
+    padding: 12px 20px;
+    gap: 15px;
     color: #fff;
-    transition: 0.3s linear;
-    box-shadow: 2px 2px 5px  rgba(255, 255, 255, 0.5);
-    border-radius: 10vh;
-
-    &:hover{
-        background-color: #fff;
-        color: #040D2F;
-    }
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
-.close_sidebar_option{
-    width: 5vw;
-    height: 4vw;
-    text-align: center;
-    border-radius: 50%;
+
+.close_sidebar_option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
     color: #fff;
-    transition: 0.3s linear;
-
-}
-.icon{
-    font-size: 3vw;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
+.icon {
+    font-size: 20px;
+    min-width: 20px;
+}
 
-.admin_active{
+.open_sidebar_option:hover,
+.close_sidebar_option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin_active {
     background-color: #fff;
     color: #040D2F;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+}
+
+.admin_active .icon {
+    color: #040D2F;
+}
+
+/* Fix for sidebar name and icon classes */
+.sidebar.icon,
+.sidebar.name {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width:768px) {
+    .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
 }
 .logout{
     color: black;
@@ -86,10 +117,43 @@
         position: absolute;
         width: 70%;
     }
-    .icon{
-        font-size: 8vw;
+
+    .sidebar.open {
+        transform: translateX(0);
     }
-    .mini_sidebar{
+
+    .mini_sidebar {
         display: none;
+    }
+
+    .icon {
+        font-size: 24px;
+    }
+
+    .open_sidebar_option {
+        padding: 15px 20px;
+    }
+
+    .sidebar_options {
+        margin-top: 70px;
+        padding: 15px;
+    }
+}
+
+/* Overlay for mobile */
+.sidebar_overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+@media (max-width: 768px) {
+    .sidebar_overlay.show {
+        display: block;
     }
 }

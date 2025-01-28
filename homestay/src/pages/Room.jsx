@@ -11,7 +11,7 @@ import { useStore } from "../Context/StoreContext";
 import axios from "axios";
 
 const Room = () => {
-  const { url, location } = useStore();
+  const { url, location, properties, setProperties } = useStore();
   const [filters, setFilters] = useState({
     distanceFromLocation: [],
     categoryType: [],
@@ -23,7 +23,7 @@ const Room = () => {
     amenities: [],
   });
   const [showFilters, setShowFilters] = useState(false);
-  const [properties, setProperties] = useState([]); // Store fetched properties
+  // Store fetched properties
   const [filteredProperties, setFilteredProperties] = useState([]);
   const [showRouteMaps, setShowRouteMaps] = useState(false);
   const [routePoints, setRoutePoints] = useState({
@@ -38,20 +38,6 @@ const Room = () => {
       address: "",
     },
   });
-
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await axios.get(`${url}/api/propertylist/approvedProperty`);
-        setProperties(response.data.properties);
-        setFilteredProperties(response.data.properties);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    fetchProperties();
-  }, []);
 
   const distanceFromLocation = [
     "Less Than 2Km",
@@ -116,6 +102,20 @@ const Room = () => {
 
     return distance;
   };
+  useEffect(() => {
+    if (
+      filters.distanceFromLocation.length === 0 &&
+      filters.categoryType.length === 0 &&
+      filters.propertyType.length === 0 &&
+      filters.amenities.length === 0 &&
+      filters.priceRange.min === 0 &&
+      filters.priceRange.max === 1000
+    ) {
+      setFilteredProperties(properties);
+    } else {
+      filterProperties();
+    }
+  }, [filters, properties]);
 
   const filterProperties = () => {
     let filtered = [...properties];
@@ -126,7 +126,6 @@ const Room = () => {
           property.location,
           location
         );
-        console.log(distance);
         return filters.distanceFromLocation.some((range) => {
           if (range === "Less Than 2Km" && distance < 2) return true;
           if (range === "2KM to 5KM" && distance >= 2 && distance <= 5)
@@ -137,6 +136,9 @@ const Room = () => {
           return false;
         });
       });
+    } else {
+      // When no distance filter is selected, skip this filter
+      setFilteredProperties(filtered);
     }
 
     if (filters.categoryType.length > 0) {
@@ -144,10 +146,9 @@ const Room = () => {
         const categories = Array.isArray(property.categoryLists)
           ? property.categoryLists
           : [property.categoryLists];
-        const hasMatch = categories.some((category) =>
+        return categories.some((category) =>
           filters.categoryType.includes(category.name)
         );
-        return hasMatch;
       });
     }
 
@@ -165,11 +166,7 @@ const Room = () => {
         const types = Array.isArray(property.typeLists)
           ? property.typeLists
           : [property.typeLists];
-        console.log(types);
-        const hasPropertyMatch = types.some((type) =>
-          filters.propertyType.includes(type.name)
-        );
-        return hasPropertyMatch;
+        return types.some((type) => filters.propertyType.includes(type.name));
       });
     }
 
@@ -187,6 +184,9 @@ const Room = () => {
     setFilteredProperties(filtered);
   };
 
+  useEffect(() => {
+    console.log("showproperties", filteredProperties);
+  }, [filters]);
   const handlePriceChange = (type) => (e) => {
     const value = Number(e.target.value);
     setFilters((prev) => ({
@@ -199,14 +199,18 @@ const Room = () => {
   };
   const getRouteFromOSRM = async (start, end) => {
     try {
-      const routeUrl = `http://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&steps=true`;
+      const routeUrl = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=polyline`;
       const response = await axios.get(routeUrl);
-      const routeGeometry = response.data.routes[0].geometry; // Get the polyline string
+
+      if (!response.data.routes || response.data.routes.length === 0) {
+        throw new Error("No route found");
+      }
+
+      const routeGeometry = response.data.routes[0].geometry;
       const decodedRoute = decodePolyline(routeGeometry);
-      console.log(decodedRoute);
-      return decodedRoute; // Decode the polyline
+      return decodedRoute;
     } catch (error) {
-      console.error("Error fetching route from OSRM", error);
+      console.error("Error fetching route from OSRM:", error);
       return [];
     }
   };
@@ -252,81 +256,106 @@ const Room = () => {
       return;
     }
 
-    const routePath = await getRouteFromOSRM(
-      routePoints.start,
-      routePoints.end
-    );
-    console.log(routePath);
-    if (routePath.length === 0) {
-      alert("No route found!");
-      return;
+    try {
+      const routePath = await getRouteFromOSRM(
+        routePoints.start,
+        routePoints.end
+      );
+
+      if (routePath.length === 0) {
+        alert("Could not find a route between these points");
+        return;
+      }
+
+      const propertiesOnRoute = properties.filter((property) => {
+        return isPropertyAlongRoute(property, routePath);
+      });
+
+      if (propertiesOnRoute.length === 0) {
+        alert("No properties found along this route");
+      }
+
+      setFilteredProperties(propertiesOnRoute);
+      setShowRouteMaps(false);
+    } catch (error) {
+      console.error("Error in route planning:", error);
+      alert("Error finding properties along the route");
     }
-
-    const propertiesOnRoute = properties.filter((property) => {
-      return isPropertyAlongRoute(property, routePath);
-    });
-    console.log("proppppp", propertiesOnRoute);
-    setFilteredProperties(propertiesOnRoute);
-    setShowRouteMaps(false);
   };
 
-  const calculateHaversianDistanceRoute = (
-    startPoint,
-    endPoint,
-    propertyLocation
-  ) => {
-    const R = 6371; // Radius of Earth in kilometers
-
-    // Convert latitude and longitude from degrees to radians
-    const lat1 = toRad(startPoint.lat);
-    const lon1 = toRad(startPoint.lng);
-    const lat2 = toRad(endPoint.lat);
-    const lon2 = toRad(endPoint.lng);
-
-    const propertyLat = toRad(propertyLocation.lat);
-    const propertyLng = toRad(propertyLocation.lng);
-    const dlat = lat2 - lat1;
-    const dlon = lon2 - lon1;
-    const a =
-      Math.sin(dlat / 2) * Math.sin(dlat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distanceBetweenRoute = R * c;
-    console.log(distanceBetweenRoute);
-
-    const area = Math.abs(
-      (lat1 - propertyLat) * (lon2 - lon1) -
-        (lat2 - propertyLat) * (lon1 - propertyLng)
-    );
-    console.log(area);
-    // Calculate the distance from the property to the route
-    const distanceFromRoute = area / distanceBetweenRoute;
-    console.log("disfromroute", distanceFromRoute);
-    console.log("return", distanceFromRoute <= 2 ? distanceFromRoute : 0);
-    return distanceFromRoute <= 2 ? distanceFromRoute : 0; // Return the distance if within the max threshold (e.g., 2 km)
-  };
   const isPropertyAlongRoute = (property, routePath) => {
-    const propertyLat = property.location[1]; // Assuming the propertyLocation array is [lng, lat]
+    const propertyLat = property.location[1];
     const propertyLng = property.location[0];
-    const maxDistance = 1; // Max distance (2 km)
+    const maxDistance = 2; // 2km threshold
 
-    // Loop through each segment in the route path
+    // Check each segment of the route
     for (let i = 0; i < routePath.length - 1; i++) {
       const start = routePath[i];
       const end = routePath[i + 1];
 
-      // Calculate the distance between the property and the route segment
-      const distance = calculateHaversianDistanceRoute(
-        { lat: start.lat, lng: start.lng }, // Start of the segment
-        { lat: end.lat, lng: end.lng }, // End of the segment
-        { lat: propertyLat, lng: propertyLng } // Property location
+      const distance = calculateDistanceToSegment(
+        { lat: propertyLat, lng: propertyLng },
+        { lat: start.lat, lng: start.lng },
+        { lat: end.lat, lng: end.lng }
       );
+
       if (distance <= maxDistance) {
-        return true; // Property is close to the route
+        return true;
       }
     }
+    return false;
+  };
 
-    return false; // Property is not along the route
+  const calculateDistanceToSegment = (point, start, end) => {
+    const R = 6371; // Earth's radius in km
+
+    // Convert all points to radians
+    const p = {
+      lat: toRad(point.lat),
+      lng: toRad(point.lng),
+    };
+    const s = {
+      lat: toRad(start.lat),
+      lng: toRad(start.lng),
+    };
+    const e = {
+      lat: toRad(end.lat),
+      lng: toRad(end.lng),
+    };
+
+    // Calculate the cross track distance
+    const d13 = haversineDistance(s, p);
+    const bearing13 = calculateBearing(s, p);
+    const bearing12 = calculateBearing(s, e);
+
+    const crossTrackDistance =
+      Math.asin(Math.sin(d13 / R) * Math.sin(bearing13 - bearing12)) * R;
+
+    return Math.abs(crossTrackDistance);
+  };
+
+  const haversineDistance = (p1, p2) => {
+    const R = 6371; // Earth's radius in km
+    const dLat = p2.lat - p1.lat;
+    const dLon = p2.lng - p1.lng;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(p1.lat) *
+        Math.cos(p2.lat) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  const calculateBearing = (p1, p2) => {
+    const y = Math.sin(p2.lng - p1.lng) * Math.cos(p2.lat);
+    const x =
+      Math.cos(p1.lat) * Math.sin(p2.lat) -
+      Math.sin(p1.lat) * Math.cos(p2.lat) * Math.cos(p2.lng - p1.lng);
+    return Math.atan2(y, x);
   };
 
   return (

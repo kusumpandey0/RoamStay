@@ -20,7 +20,7 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [jwtUserDetails, setJwtUserDetails] = useState(null);
   const [photos, setPhotos] = useState([]);
-
+  const [properties, setProperties] = useState([]);
   const [destinations, setDestinations] = useState([]);
   // const fetchUserDetails = () => {
   //   try {
@@ -28,7 +28,20 @@ export const StoreProvider = ({ children }) => {
   //     console.log(err.message);
   //   }
   // };
-
+  const fetchProperties = async () => {
+    try {
+      const response = await axios.get(
+        `${url}/api/propertylist/approvedProperty`
+      );
+      setProperties(response.data.properties);
+      setFilteredProperties(response.data.properties);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  useEffect(() => {
+    fetchProperties();
+  }, []);
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     // console.log("token", token);
@@ -62,21 +75,19 @@ export const StoreProvider = ({ children }) => {
     setSuggestions([]);
   };
 
-    //for fetching destination data 
-    const fetchDestination=async()=>{
-      try{
-          const res=await axios.get(`${url}/api/destination/approvedDestination`)
-                  setDestinations(res.data.data)
-          
-      }catch(err){
-        console.log(err);
-        
-      }
+  //for fetching destination data
+  const fetchDestination = async () => {
+    try {
+      const res = await axios.get(`${url}/api/destination/approvedDestination`);
+      setDestinations(res.data.data);
+    } catch (err) {
+      console.log(err);
     }
-    
-    useEffect(()=>{
-      fetchDestination();
-    },[])
+  };
+
+  useEffect(() => {
+    fetchDestination();
+  }, []);
 
   // Return the provider with state values
   return (
@@ -99,8 +110,12 @@ export const StoreProvider = ({ children }) => {
         photos,
         setPhotos,
         url,
-        destinations, setDestinations,
-        fetchDestination
+        destinations,
+        setDestinations,
+        fetchDestination,
+        fetchProperties,
+        properties,
+        setProperties,
       }}
     >
       {children}
