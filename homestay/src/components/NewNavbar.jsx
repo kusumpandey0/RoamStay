@@ -11,7 +11,7 @@ const NewNavbar = () => {
   const { jwtUserDetails, setJwtUserDetails } = useStore();
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem('role')
+    localStorage.removeItem("role");
     setJwtUserDetails(null);
     setDropdownClick(false); // Close the dropdown
     console.log("User logged out");
@@ -45,14 +45,11 @@ const NewNavbar = () => {
         <div className={`dropdownlist ${dropdownClick ? "active" : ""}`}>
           {jwtUserDetails ? (
             <div>
-              <NavLink className="dropdownlist_loginlink" to="/">
+              <NavLink className="dropdownlist_loginlink" to="/wishlist">
                 Wish List
               </NavLink>
               <hr />
-              <NavLink className="dropdownlist_loginlink" to="/">
-                Property List
-              </NavLink>
-              <hr />
+
               <NavLink
                 className="dropdownlist_loginlink"
                 to="/login"

@@ -10,6 +10,7 @@ import { AdminLayout } from "./Admin/components/AdminLayout/AdminLayout.jsx";
 import ManageRooms from "./Admin/pages/ManageRooms/ManageRooms.jsx";
 import ManageTravelGuide from "./Admin/pages/ManageTravelGuide/ManageTravelGuide.jsx";
 import ManageDestinations from "./Admin/pages/ManageDestinations/ManageDestinations.jsx";
+import WishList from "./pages/WishList";
 import ProtectedRouteUser from "./components/ProtectedRouteUser.jsx";
 import ProtectedRoute from "./components/ProtectedRouteUser.jsx";
 

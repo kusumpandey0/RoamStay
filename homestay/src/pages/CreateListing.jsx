@@ -11,6 +11,8 @@ import "react-datepicker/dist/react-datepicker.css"; // Import CSS
 import Navbar from "../components/Navbar.jsx";
 import { useStore } from "../Context/StoreContext.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateListing = () => {
   const navigate = useNavigate();
@@ -109,6 +111,7 @@ const CreateListing = () => {
           "Content-Type": "multipart/form-data",
         }
       );
+      toast.success("Property added successfully");
       setFormData({
         title: "",
         description: "",
@@ -124,11 +127,19 @@ const CreateListing = () => {
         bedCount: 1,
         bathroomCount: 1,
       });
-      navigate("/");
+      setPhotos([]);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
 
       console.log("created", response.data);
     } catch (err) {
-      console.log(err.message);
+      if (err.response) {
+        toast.error(`Error: ${err.response.data.message || "Unknown error"}`);
+      } else {
+        toast.error(`Error: ${err.message}`);
+      }
     }
   };
 

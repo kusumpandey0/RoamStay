@@ -5,8 +5,12 @@ import "../styles/TravelGuide.scss";
 import { FaStar, FaPhone, FaEnvelope, FaLanguage } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TravelGuide = () => {
+  const navigate = useNavigate();
   const { setMenu, url, token } = useStore();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -55,20 +59,19 @@ const TravelGuide = () => {
     data.append("certificate", formData.certificate);
     data.append("citizenship", formData.citizenship);
 
-    // Handle form submission
-    console.log(formData);
-
     try {
-      console.log(token);
-
       const res = await axios.post(`${url}/api/travelGuide/create`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchTravelGuide();
-      console.log(res);
 
+      // Success Toast
+      toast.success("Travel guide application submitted successfully!");
+
+      fetchTravelGuide();
+
+      // Reset the form after successful submission
       setFormData({
         name: "",
         email: "",
@@ -81,28 +84,44 @@ const TravelGuide = () => {
         certificate: null,
         citizenship: null,
       });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (err) {
-      console.log(err.response.data.message);
+      // Error Toast
+      toast.error(
+        `Error: ${err.response ? err.response.data.message : "Unknown error"}`
+      );
     }
   };
-  setMenu("travelguides");
 
   const fetchTravelGuide = async () => {
     try {
       const res = await axios.get(`${url}/api/travelGuide/approvedGuide`);
-      console.log(res);
       setGuides(res?.data?.data);
     } catch (err) {
-      console.log(err.response.data.message);
+      toast.error(
+        `Error fetching guides: ${
+          err.response ? err.response.data.message : "Unknown error"
+        }`
+      );
     }
   };
+
   useEffect(() => {
     fetchTravelGuide();
   }, []);
-  const [contactBtn, setContactBtn] = useState(false);
-  const handleContactbtn = () => {
-    setContactBtn((prev) => !prev);
+
+  const [contactBtnState, setContactBtnState] = useState({});
+
+  const handleContactbtn = (guideId) => {
+    setContactBtnState((prev) => ({
+      ...prev,
+      [guideId]: !prev[guideId],
+    }));
   };
+
   return (
     <div className="travel_guide_page">
       <NewNavbar />
@@ -144,11 +163,11 @@ const TravelGuide = () => {
                   <p className="about">{guide.about}</p>
                   <button
                     className="contact_btn"
-                    onClick={() => handleContactbtn()}
+                    onClick={() => handleContactbtn(guide._id)}
                   >
-                    Contact Guide
+                    Contact Guide{" "}
+                    {contactBtnState[guide._id] && guide.phoneNumber}
                   </button>
-                  {contactBtn && guide.phonenumber}
                 </div>
               </div>
             ))}
@@ -284,6 +303,7 @@ const TravelGuide = () => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

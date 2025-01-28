@@ -4,16 +4,19 @@ import NewNavbar from "../components/NewNavbar";
 import "../styles/Destination.scss";
 import PhotoUpload from "../components/PhotoUpload";
 import { useStore } from "../Context/StoreContext";
-import axios from 'axios'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Destination = () => {
-
-
-  const{photos,url,token,destinations,fetchDestination}=useStore();
+  const navigate = useNavigate();
+  const { photos, url, token, destinations, fetchDestination, setPhotos } =
+    useStore();
 
   const [newDestination, setNewDestination] = useState({
     title: "",
     description: "",
-    photo: "",
   });
 
   const handleChange = (e) => {
@@ -24,38 +27,36 @@ const Destination = () => {
     }));
   };
 
-  const handleAddDestination = async(e) => {
+  const handleAddDestination = async (e) => {
     e.preventDefault();
-    console.log(newDestination);
-    console.log(photos);
-    const formData=new FormData();
-    formData.append("title",newDestination.title);
-    formData.append("description",newDestination.description);
+    const formData = new FormData();
+    formData.append("title", newDestination.title);
+    formData.append("description", newDestination.description);
     photos.forEach((photo) => {
       formData.append("images", photo);
     });
 
-    try{
-        const res=await axios.post(`${url}/api/destination/create`,formData,
-          {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          }
-          )
-          console.log(res);
+    try {
+      const res = await axios.post(`${url}/api/destination/create`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Destination added successfully");
+      setNewDestination({ title: "", description: "" });
+      setPhotos([]);
 
-          fetchDestination();
-          
-    }catch(err){
-      console.log(err.response.data.error);
-      
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (err) {
+      if (err.response) {
+        toast.error(`Error: ${err.response.data.message || "Unknown error"}`);
+      } else {
+        toast.error(`Error: ${err.message}`);
+      }
     }
-      setNewDestination({ title: "", description: "", photo: "" });
-    
   };
-  
-
 
   return (
     <>
@@ -64,12 +65,10 @@ const Destination = () => {
         <div className="destination-list">
           <h2>Explore Popular Destinations</h2>
           <div className="destination-grid">
-            {destinations&&destinations.map((destination, index) => (
-              <DestinationBox
-                key={index}
-                destination={destination}
-              />
-            ))}
+            {destinations &&
+              destinations.map((destination, index) => (
+                <DestinationBox key={index} destination={destination} />
+              ))}
           </div>
         </div>
 
@@ -105,6 +104,7 @@ const Destination = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
