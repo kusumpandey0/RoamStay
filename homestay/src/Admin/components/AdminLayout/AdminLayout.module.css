@@ -1,7 +1,47 @@
-.admin_container{
+.admin_container {
     width: 100%;
+    min-height: 100vh;
     display: flex;
+    background: #f8f9fa;
 }
-.inner_container{
-    width: 100%;
+
+.inner_container {
+    flex: 1;
+    margin-left: 250px;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    padding: 20px;
+}
+
+.inner_container.collapsed {
+    margin-left: 70px;
+}
+
+/* For mobile screens */
+@media (max-width: 768px) {
+    .inner_container {
+        margin-left: 0;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .inner_container.collapsed {
+        margin-left: 0;
+    }
+}
+
+/* For tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .inner_container {
+        margin-left: 70px;
+        padding: 20px;
+    }
+}
+
+/* For smaller laptops */
+@media (min-width: 1025px) and (max-width: 1366px) {
+    .inner_container {
+        padding: 25px;
+    }
 }

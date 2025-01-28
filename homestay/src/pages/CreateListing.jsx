@@ -10,8 +10,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import CSS
 import Navbar from "../components/Navbar.jsx";
 import { useStore } from "../Context/StoreContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
+  const navigate = useNavigate();
   const [CategoryAll, setCategoryAll] = useState(false);
   const { photos, setPhotos, location, address, url, token } = useStore();
 
@@ -96,9 +98,7 @@ const CreateListing = () => {
     photos.forEach((photo) => {
       data.append("images", photo);
     });
-    // console.log("Form Submitted: ", formData);
-    // console.log("data", data);
-    alert("Your listing has been created!");
+
     try {
       console.log("token", token);
       const response = await axios.post(
@@ -109,6 +109,23 @@ const CreateListing = () => {
           "Content-Type": "multipart/form-data",
         }
       );
+      setFormData({
+        title: "",
+        description: "",
+        highlight: "",
+        highlightDesc: "",
+        price: "",
+        amenitiesLists: [],
+        categoryLists: [],
+        typeLists: [],
+        availableDates: [today, today],
+        guestCount: 1,
+        bedroomCount: 1,
+        bedCount: 1,
+        bathroomCount: 1,
+      });
+      navigate("/");
+
       console.log("created", response.data);
     } catch (err) {
       console.log(err.message);
