@@ -87,18 +87,19 @@ const TravelGuide = () => {
   };
   setMenu("travelguides");
 
-  const fetchTravelGuide = async () => {
-    try {
-      const res = await axios.get(`${url}/api/travelGuide/read`);
-      console.log(res);
-      setGuides(res?.data?.data);
-    } catch (err) {
+  const fetchTravelGuide=async()=>{
+    try{
+        const res=await axios.get(`${url}/api/travelGuide/approvedGuide`);
+        console.log(res);
+        setGuides(res?.data?.data);
+    }catch(err){
       console.log(err.response.data.message);
     }
-  };
-  useEffect(() => {
-    fetchTravelGuide();
-  }, []);
+  }
+  useEffect(()=>{
+      fetchTravelGuide();
+  },[])
+
 
   return (
     <div className="travel_guide_page">

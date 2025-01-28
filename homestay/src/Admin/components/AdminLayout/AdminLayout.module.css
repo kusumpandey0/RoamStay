@@ -1,0 +1,7 @@
+.admin_container{
+    width: 100%;
+    display: flex;
+}
+.inner_container{
+    width: 100%;
+}

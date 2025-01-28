@@ -65,7 +65,7 @@ export const StoreProvider = ({ children }) => {
     //for fetching destination data 
     const fetchDestination=async()=>{
       try{
-          const res=await axios.get(`${url}/api/destination/read`)
+          const res=await axios.get(`${url}/api/destination/approvedDestination`)
                   setDestinations(res.data.data)
           
       }catch(err){

@@ -52,14 +52,12 @@ const createDestination=async(req,res)=>{
 
 
 const fetchDestinations=async(req,res)=>{
-    console.log("hello");
-    
     try{
-        const destinationData=await Destination.find();
-        console.log(destinationData);
-        if(destinationData){
+        const approvedDestionation=await Destination.find({status:"approved"});
+        console.log(approvedDestionation);
+        if(approvedDestionation){
             res.status(200).json({
-                data:destinationData,
+                data:approvedDestionation,
                 message:"Data fetched successfully"
             })
         }
@@ -68,6 +66,49 @@ const fetchDestinations=async(req,res)=>{
         console.log(err);
         
     }
-
 }
-module.exports={createDestination,fetchDestinations}
+
+const fetchPendingDestinations=async(req,res)=>{
+    console.log("pending destinations");
+    try{
+        const pendingDestionation=await Destination.find({status:"pending"});
+        console.log(pendingDestionation);
+        if(pendingDestionation){
+            res.status(200).json({
+                data:pendingDestionation,
+                message:"Data fetched successfully"
+            })
+        }
+        }catch(err){
+        console.log(err);
+        
+    }
+    
+}
+
+const changeDestStatus=async(req,res)=>{
+    console.log("change destination status ma aayo");
+
+    const {id}=req.params;
+    const {status}=req.body;
+    try{
+        const destination=await Destination.findByIdAndUpdate(id,{status});
+
+        if(!destination){
+            return res.status(404).json({
+                error:"Destination not Found"
+            })
+        }
+        res.status(200).json({
+            message:"Destination approved successfully",
+            data:destination
+        })
+
+    }catch(err){
+        res.status(500).json({
+            message:"failed to update guide status"
+        })
+    }
+}
+
+module.exports={createDestination,fetchDestinations,changeDestStatus,fetchPendingDestinations}

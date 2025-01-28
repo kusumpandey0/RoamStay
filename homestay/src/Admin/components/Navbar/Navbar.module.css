@@ -1,0 +1,44 @@
+.navbar{
+    position: relative;
+    width: 100%;
+    padding: 0vw 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    /* background-color: #040D2F; */
+    background-color: grey;
+    }
+
+.nav_logo img{
+    width: 8vw;
+  
+}
+.user_logo{
+    font-size: 5vw;
+}
+.menu_icon{
+    position: absolute;
+    left: 0;
+    color: #fff;
+    font-size: 2.5vw;
+    text-align: end;
+    padding: 1vh 1vw;
+    cursor: pointer;
+}
+
+@media (max-width:600px) {
+    .nav_logo img{
+        display: none;
+    }
+    .user_logo{
+        display: none;
+
+    }
+    .menu_icon{
+        font-size: 5vh;
+    }
+    .navbar{
+        height: 10vh;   
+    }
+}

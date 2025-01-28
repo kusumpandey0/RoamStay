@@ -21,8 +21,14 @@ const propertySchema = new mongoose.Schema(
     },
     address: String,
     images: [String],
+    status:{
+      type:String,
+      enum:["pending","approved"],
+      default:"pending",
+    }
   },
-  { timestamps: true }
+  { timestamps: true },
+  
 );
 
 const Property = mongoose.model("Property", propertySchema);
