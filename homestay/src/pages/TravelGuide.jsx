@@ -91,7 +91,7 @@ const TravelGuide = () => {
 
   const fetchTravelGuide=async()=>{
     try{
-        const res=await axios.get(`${url}/api/travelGuide/read`);
+        const res=await axios.get(`${url}/api/travelGuide/approvedGuide`);
         console.log(res);
         setGuides(res?.data?.data);
     }catch(err){
@@ -100,7 +100,7 @@ const TravelGuide = () => {
     }
   }
   useEffect(()=>{
-      fetchTravelGuide()
+      fetchTravelGuide();
   },[])
 
 

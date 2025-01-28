@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DestinationBox from "../components/DestinationBox";
 import NewNavbar from "../components/NewNavbar";
 import "../styles/Destination.scss";
