@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DestinationBox from "../components/DestinationBox";
 import NewNavbar from "../components/NewNavbar";
 import "../styles/Destination.scss";
@@ -6,9 +6,9 @@ import PhotoUpload from "../components/PhotoUpload";
 import { useStore } from "../Context/StoreContext";
 import axios from 'axios'
 const Destination = () => {
-  const [destinations, setDestinations] = useState([]);
 
-  const{photos,setPhotos,url,token}=useStore();
+
+  const{photos,url,token,destinations,fetchDestination}=useStore();
 
   const [newDestination, setNewDestination] = useState({
     title: "",
@@ -44,37 +44,18 @@ const Destination = () => {
           }
           )
           console.log(res);
+
+          fetchDestination();
           
     }catch(err){
       console.log(err.response.data.error);
       
     }
-    
-    if (
-      newDestination.title &&
-      newDestination.description &&
-      newDestination.photo
-    ) {
-    
       setNewDestination({ title: "", description: "", photo: "" });
-    }
+    
   };
   
-  //for fetching destination data 
-  const fetchDestination=async()=>{
-    try{
-        const res=await axios.get(`${url}/api/destination/read`)
-                setDestinations(res.data.data)
-        
-    }catch(err){
-      console.log(err);
-      
-    }
-  }
-  
-  useEffect(()=>{
-    fetchDestination();
-  },[])
+
 
   return (
     <>

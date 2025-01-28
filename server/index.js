@@ -22,6 +22,10 @@ app.use("/api/propertylist", propertyRoutes);
 const destinationRoute = require("./routes/destinationRoute.js");
 app.use("/api/destination", destinationRoute);
 
+//for travelGuide
+const travelGuideRoute=require('./routes/travelGuide.js')
+app.use('/api/travelGuide',travelGuideRoute)
+
 //database connectiona and starting the server
 const URL = process.env.MONGO_URL;
 connectToDb(URL);
