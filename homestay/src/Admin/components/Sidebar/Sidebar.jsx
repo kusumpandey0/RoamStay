@@ -4,6 +4,7 @@ import { FaPlaceOfWorship } from "react-icons/fa";
 import { IoIosMan } from "react-icons/io";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoIosLogOut } from "react-icons/io";
+import { useStore } from '../../../Context/StoreContext';
 const routeArray=[
     {
         path: '/admin',
@@ -26,9 +27,11 @@ const routeArray=[
 ]
 export const Sidebar=({isOpen})=>{
     const navigate=useNavigate();
+    const {setJwtUserDetails}=useStore();
   const handleLogout=()=>{
     localStorage.removeItem("token");
     localStorage.removeItem('role');
+    setJwtUserDetails(null);
     navigate('/login')
   }
     
