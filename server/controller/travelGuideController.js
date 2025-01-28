@@ -27,7 +27,7 @@ const createTravelGuide=async(req,res)=>{
 
    const data= await TravelGuide.create({
         name,email,
-        phone,languages,experience,locations,about,
+        phoneNumber:phone,languages,experience,locations,about,
         profilePhoto:photoPath,
         guideCertificate:certificatePath,
         citizenship:citizenshipPath

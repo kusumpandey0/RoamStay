@@ -62,7 +62,23 @@
     background-color: #fff;
     color: #040D2F;
 }
-
+.logout{
+    color: black;
+    font-size: 3vw;
+    position: absolute;
+    bottom: 15px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        background-color: red;
+        color: white;
+    }
+}
 
 
 @media (max-width:600px) {

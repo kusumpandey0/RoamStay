@@ -1,8 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './Sidebar.module.css'
 import { FaPlaceOfWorship } from "react-icons/fa";
 import { IoIosMan } from "react-icons/io";
 import { LiaHotelSolid } from "react-icons/lia";
+import { IoIosLogOut } from "react-icons/io";
 const routeArray=[
     {
         path:'/admin',
@@ -19,12 +20,17 @@ const routeArray=[
         name:"Manage Destinations",
         icon:<FaPlaceOfWorship  className={styles.icon}/>
     },
+   
 
 
 ]
 export const Sidebar=({isOpen})=>{
-
-  
+    const navigate=useNavigate();
+  const handleLogout=()=>{
+    localStorage.removeItem("token");
+    localStorage.removeItem('role');
+    navigate('/login')
+  }
     
     return(
         <>
@@ -39,6 +45,10 @@ export const Sidebar=({isOpen})=>{
                             </NavLink>
                             );
                         })}
+
+                   <button className={styles.logout} onClick={handleLogout}>
+                   <IoIosLogOut />
+                    </button> 
                     </div>
             </div>
         </>

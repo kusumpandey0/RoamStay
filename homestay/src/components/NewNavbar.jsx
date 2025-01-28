@@ -11,6 +11,7 @@ const NewNavbar = () => {
   const { jwtUserDetails, setJwtUserDetails } = useStore();
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem('role')
     setJwtUserDetails(null);
     setDropdownClick(false); // Close the dropdown
     console.log("User logged out");
