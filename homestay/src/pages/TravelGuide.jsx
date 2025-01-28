@@ -4,10 +4,10 @@ import { useStore } from "../Context/StoreContext";
 import "../styles/TravelGuide.scss";
 import { FaStar, FaPhone, FaEnvelope, FaLanguage } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
-import axios from 'axios'
+import axios from "axios";
 
 const TravelGuide = () => {
-  const { setMenu,url,token } = useStore();
+  const { setMenu, url, token } = useStore();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -19,90 +19,86 @@ const TravelGuide = () => {
     about: "",
     photo: null,
     certificate: null,
-    citizenship: null
+    citizenship: null,
   });
 
   // Mock data for guides
-  const [guides,setGuides] =useState([]);
+  const [guides, setGuides] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleFileChange = (e, type) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [type]: e.target.files[0]
+      [type]: e.target.files[0],
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data=new FormData();
-    data.append("name",formData.name)
-    data.append("email",formData.email)
-    data.append("phone",formData.phone)
-    data.append("languages",formData.languages)
-    data.append("experience",formData.experience)
-    data.append("locations",formData.locations)
-    data.append("about",formData.about)
-    data.append("photo",formData.photo)
-    data.append("certificate",formData.certificate)
-    data.append("citizenship",formData.citizenship)
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("phone", formData.phone);
+    data.append("languages", formData.languages);
+    data.append("experience", formData.experience);
+    data.append("locations", formData.locations);
+    data.append("about", formData.about);
+    data.append("photo", formData.photo);
+    data.append("certificate", formData.certificate);
+    data.append("citizenship", formData.citizenship);
 
     // Handle form submission
     console.log(formData);
 
-    try{
+    try {
       console.log(token);
-      
-        const res=await axios.post(`${url}/api/travelGuide/create`,data,
-         { headers:{
-            Authorization:`Bearer ${token}`
-          }
-        }
-        )
-        fetchTravelGuide();
-        console.log(res);
-        
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          languages: "",
-          experience: "",
-          locations: "",
-          about: "",
-          photo: null,
-          certificate: null,
-          citizenship: null
-        })
-    }catch(err){
-        console.log(err.response.data.message);
-        
+
+      const res = await axios.post(`${url}/api/travelGuide/create`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchTravelGuide();
+      console.log(res);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        languages: "",
+        experience: "",
+        locations: "",
+        about: "",
+        photo: null,
+        certificate: null,
+        citizenship: null,
+      });
+    } catch (err) {
+      console.log(err.response.data.message);
     }
   };
   setMenu("travelguides");
 
-  const fetchTravelGuide=async()=>{
-    try{
-        const res=await axios.get(`${url}/api/travelGuide/read`);
-        console.log(res);
-        setGuides(res?.data?.data);
-    }catch(err){
+  const fetchTravelGuide = async () => {
+    try {
+      const res = await axios.get(`${url}/api/travelGuide/read`);
+      console.log(res);
+      setGuides(res?.data?.data);
+    } catch (err) {
       console.log(err.response.data.message);
-      
     }
-  }
-  useEffect(()=>{
-      fetchTravelGuide()
-  },[])
-
+  };
+  useEffect(() => {
+    fetchTravelGuide();
+  }, []);
 
   return (
     <div className="travel_guide_page">
@@ -120,7 +116,7 @@ const TravelGuide = () => {
 
         {!showForm ? (
           <div className="guides_list">
-            {guides?.map(guide => (
+            {guides?.map((guide) => (
               <div key={guide._id} className="guide_card">
                 <div className="guide_photo">
                   <img src={`${url}/${guide.profilePhoto}`} alt={guide.name} />
@@ -128,7 +124,6 @@ const TravelGuide = () => {
                 <div className="guide_info">
                   <div className="guide_header">
                     <h3>{guide.name}</h3>
-                   
                   </div>
                   <div className="guide_details">
                     <p className="experience">
@@ -231,7 +226,7 @@ const TravelGuide = () => {
                   <input
                     type="file"
                     name="photo"
-                    onChange={(e) => handleFileChange(e, 'photo')}
+                    onChange={(e) => handleFileChange(e, "photo")}
                     accept="image/*"
                     required
                   />
@@ -243,7 +238,7 @@ const TravelGuide = () => {
                   <input
                     type="file"
                     name="certificate"
-                    onChange={(e) => handleFileChange(e, 'certificate')}
+                    onChange={(e) => handleFileChange(e, "certificate")}
                     accept=".pdf,.jpg,.jpeg,.png"
                     required
                   />
@@ -255,7 +250,7 @@ const TravelGuide = () => {
                   <input
                     type="file"
                     name="citizenship"
-                    onChange={(e) => handleFileChange(e, 'citizenship')}
+                    onChange={(e) => handleFileChange(e, "citizenship")}
                     accept=".pdf,.jpg,.jpeg,.png"
                     required
                   />
@@ -267,7 +262,8 @@ const TravelGuide = () => {
                 <label className="checkbox_label">
                   <input type="checkbox" required />
                   <span>
-                    I confirm that all provided information and documents are genuine and valid
+                    I confirm that all provided information and documents are
+                    genuine and valid
                   </span>
                 </label>
               </div>

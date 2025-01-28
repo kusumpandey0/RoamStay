@@ -410,6 +410,16 @@
             height: 30px;
           }
         }
+
+        .selected-address {
+          margin-top: 10px;
+          padding: 8px;
+          background: rgba($blue, 0.1);
+          border-radius: 4px;
+          color: $darkgrey;
+          font-size: 14px;
+          line-height: 1.4;
+        }
       }
     }
 
