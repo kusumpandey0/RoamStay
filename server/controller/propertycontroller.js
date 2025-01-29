@@ -102,6 +102,34 @@ const fetchPendingproperty = async (req, res) => {
   }
 };
 
+//fetch single property
+
+const fetchSingleProperty = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      const singleProperty = await Property.findById(id);
+      
+      if (!singleProperty) {
+          return res.status(404).json({
+              message: "Property not found"
+          });
+      }
+
+      res.status(200).json({
+          message: "Single property fetched",
+          data: singleProperty
+      });
+
+  } catch (err) {
+      res.status(500).json({
+          message: "Unable to fetch property",
+          error: err.message
+      });
+  }
+};
+
+
 //update status of Property
 
 const updatePropertyStatus=async(req,res)=>{
@@ -132,4 +160,4 @@ try{
 
 
 
-module.exports = { createproperty, readproperty,fetchPendingproperty,updatePropertyStatus };
+module.exports = { createproperty, readproperty,fetchPendingproperty,updatePropertyStatus,fetchSingleProperty };

@@ -5,8 +5,10 @@ import { PiHeart, PiHeartFill } from "react-icons/pi";
 import { FaArrowRight } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
 import { useStore } from "../Context/StoreContext";
+import { Link } from "react-router-dom";
 
 const RoomCard = ({
+  id,
   title,
   description,
   highlight,
@@ -21,6 +23,7 @@ const RoomCard = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const { url } = useStore();
   return (
+    <Link to={`/property/${id}`}>
     <div className="room_container">
       <div className="roomcard">
         <div className="roomcard_image">
@@ -79,6 +82,7 @@ const RoomCard = ({
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

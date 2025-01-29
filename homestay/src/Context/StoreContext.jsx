@@ -34,6 +34,8 @@ export const StoreProvider = ({ children }) => {
         `${url}/api/propertylist/approvedProperty`
       );
       setProperties(response.data.properties);
+      console.log(response.data.properties);
+      
       // setFilteredProperties(response.data.properties);
     } catch (err) {
       console.log(err.message);
