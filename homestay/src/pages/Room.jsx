@@ -10,7 +10,7 @@ import { categories, facilities, types } from "../categories";
 import { useStore } from "../Context/StoreContext";
 import axios from "axios";
 import Footer from "../components/Footer";
-import { TbLemon2 } from "react-icons/tb";
+
 
 const Room = () => {
   const { url, location, properties, setProperties } = useStore();
@@ -355,9 +355,9 @@ const Room = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(p1.lat) *
-        Math.cos(p2.lat) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(p2.lat) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
@@ -522,6 +522,7 @@ const Room = () => {
                 bathroomCount={property.bathroomCount}
                 bedCount={property.bedCount}
                 bedroomCount={property.bedroomCount}
+                host={property.host}
               />
             ))
           ) : (
