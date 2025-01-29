@@ -23,7 +23,6 @@ const RoomCard = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const { url } = useStore();
   return (
-    <Link to={`/property/${id}`}>
     <div className="room_container">
       <div className="roomcard">
         <div className="roomcard_image">
@@ -75,14 +74,15 @@ const RoomCard = ({
             <span>Nrs.{price}</span>
             <small>/night</small>
           </div>
-          <button className="explore_btn">
-            Explore More
-            <FaArrowRight />
-          </button>
+          <Link to={`/property/${id}`}>
+            <button className="explore_btn">
+              Explore More
+              <FaArrowRight />
+            </button>
+          </Link>
         </div>
       </div>
     </div>
-    </Link>
   );
 };
 

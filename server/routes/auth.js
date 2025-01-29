@@ -27,12 +27,12 @@ router.post("/signup", upload.single("profileimage"), async (req, res) => {
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "User already exists!",role:existingUser.role });
+      return res
+        .status(409)
+        .json({ message: "User already exists!", role: existingUser.role });
     }
-    /*hashing the password*/
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
-    /*create a new user */
     const newUser = new User({
       firstname,
       lastname,
@@ -41,10 +41,7 @@ router.post("/signup", upload.single("profileimage"), async (req, res) => {
       password: hashPassword,
       profileimagePath,
     });
-    /*save the new user */
     await newUser.save();
-
-    /*send a successful message */
     res
       .status(200)
       .json({ message: "user registered successfully!", user: newUser });
@@ -71,7 +68,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     /*generate JWT token */
     const token = jwt.sign(
-      { id: user._id, firstname: user.firstname,role:user.role },
+      { id: user._id, firstname: user.firstname, role: user.role },
       process.env.JWT_SECRET
     );
     delete user.password;

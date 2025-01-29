@@ -5,8 +5,9 @@ import { FaCircleUser } from "react-icons/fa6";
 import { MdArrowDropDownCircle } from "react-icons/md";
 import { useStore } from "../Context/StoreContext"; // Assuming you're using context for state management
 import { ToastContainer } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 const NewNavbar = () => {
+  const navigate = useNavigate();
   const [dropdownClick, setDropdownClick] = React.useState(false);
   const { jwtUserDetails, setJwtUserDetails } = useStore();
   const location = useLocation();
@@ -24,7 +25,13 @@ const NewNavbar = () => {
       <div className="top">
         <div className="top_left">
           <h3>Hello, {jwtUserDetails?.firstname || "user"}!</h3>
-          <img className="top_img" src="/logo.png" alt="logo" />
+          <img
+            className="top_img"
+            src="/logo.png"
+            alt="logo"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          />
           {jwtUserDetails ? (
             <NavLink to="/createlisting" className="top_hostregister">
               Become a host
@@ -51,7 +58,8 @@ const NewNavbar = () => {
                 className="dropdownlist_loginlink"
                 to="/wishlist"
                 style={{
-                  color: location.pathname === '/wishlist' ? '#ff0000' : 'inherit'
+                  color:
+                    location.pathname === "/wishlist" ? "#ff0000" : "inherit",
                 }}
               >
                 Wish List

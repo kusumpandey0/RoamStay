@@ -42,10 +42,6 @@ const Navbar = () => {
                 Wish List
               </NavLink>
               <hr />
-              <NavLink className="dropdownlist_loginlink" to="/">
-                Property List
-              </NavLink>
-              <hr />
               <NavLink
                 className="dropdownlist_loginlink"
                 to="/login"
