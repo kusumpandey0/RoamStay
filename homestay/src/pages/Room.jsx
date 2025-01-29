@@ -512,6 +512,7 @@ const Room = () => {
             filteredProperties.map((property) => (
               <RoomCard
                 key={property._id}
+                id={property._id}
                 title={property.title}
                 description={property.description}
                 highlight={property.highlight}
